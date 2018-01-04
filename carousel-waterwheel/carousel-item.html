@@ -1,0 +1,46 @@
+<link rel="import" href="../polymer/polymer-element.html">
+
+<dom-module id="carousel-item">
+  <template>
+    <style>
+      :host {
+        display: none;
+        margin: 1%;
+        vertical-align: middle;
+      }
+      img { 
+        height: inherit;
+        width: inherit; 
+      }    
+    </style>
+    <img src="{{imgsrc}}">
+  </template>
+
+  <script>
+    class CarouselItem extends Polymer.Element {
+      static get is() { return 'carousel-item'; }
+      static get properties() {
+        return {
+          imgsrc: String,
+          num: {
+            notify: true,
+            type: Number
+          }
+        };
+      }
+      ready() {
+        super.ready();
+        this.addEventListener('num-changed', function() {
+          for (var i=0; i<5; i++) {
+            console.log(this.num);
+            if (this.num == i) {
+              this.style.display = 'inline';
+            }
+          }
+        });
+      }
+    }
+
+    window.customElements.define(CarouselItem.is, CarouselItem);
+  </script>
+</dom-module>

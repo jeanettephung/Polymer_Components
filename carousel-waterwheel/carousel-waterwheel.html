@@ -1,0 +1,51 @@
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="./carousel-item.html">
+
+<dom-module id="carousel-waterwheel">
+  <template>
+    <style>
+      :host {
+        display: flex;
+        text-align: center;
+        width: 100%;
+      }
+      ::slotted(*[num="2"]) {
+        flex-basis: 45%;
+        height: 150px;
+      }
+      ::slotted(*[num="1"]), ::slotted(*[num="3"]) {
+        flex-basis: 20%;
+        height: 125px;
+      }
+      ::slotted(*[num="0"]), ::slotted(*[num="4"]) {
+        flex-basis: 5%;
+        height: 100px;
+      }
+    </style>
+    <slot></slot>
+  </template>
+
+  <script>
+    class CarouselWaterwheel extends Polymer.Element {
+      static get is() { return 'carousel-waterwheel'; }
+      static get properties() {
+        return {
+          prop1: {
+            type: String,
+            value: 'carousel-waterwheel'
+          }
+        };
+      }
+      assignNum() {
+        const items = this.children;
+        for (var i=0; i<items.length; i++) items[i].setAttribute('num', i);
+      }
+      constructor() {
+        super();
+        this.assignNum();
+      }
+    }
+
+    window.customElements.define(CarouselWaterwheel.is, CarouselWaterwheel);
+  </script>
+</dom-module>
