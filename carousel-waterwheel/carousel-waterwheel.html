@@ -9,23 +9,38 @@
         margin: 2rem 0;
       }
       ::slotted(*) {
-        transition-property: width, height, z-index;
-        transition-duration: 0.2s;
+        transition-duration: 0.5s;
+        transition-property: display, height, opacity, width, z-index;
+        display: none;
       }
-      ::slotted(*[num="2"]) {
-        width: 40%;
+      ::slotted(.active) {
+        display: inline;
         height: 150px;
+        opacity: 1;
+        order: 3;
+        width: 40%;
         z-index: 15;
-      }
-      ::slotted(*[num="1"]), ::slotted(*[num="3"]) {
-        width: 30%;
+      }::slotted(.prev-adj), ::slotted(.next-adj) {
+        display: inline;
         height: 125px;
+        opacity: 0.9;
+        order: 2;
+        width: 30%;
         z-index: 10;
       }
-      ::slotted(*[num="0"]), ::slotted(*[num="4"]) {
-        width: 25%;
+      ::slotted(.next-adj) {
+        order: 4;
+      } 
+      ::slotted(.prev-end), ::slotted(.next-end) {
+        display: inline;
         height: 100px;
+        opacity: 0.75;
+        order: 1;
+        width: 25%;
         z-index: 5;
+      }
+      ::slotted(.next-end) {
+        order: 5;
       }
       slot {
         z-index: 10;
@@ -68,33 +83,59 @@
       static get is() { return 'carousel-waterwheel'; }
       static get properties() {
         return {
-          prop1: {
-            type: String,
-            value: 'carousel-waterwheel'
+          cur: {
+            type: Number,
+            value: 0
           }
         };
       }
-      assignNum() {
+      init() {
         const items = this.children;
-        for (var i=0; i<items.length; i++) items[i].setAttribute('num', i);
+        const total = items.length;
+        
+        for (var i = 0; i < total; i++) {
+          if (i==0) items[i].setAttribute('prev', total-1);
+          else items[i].setAttribute('prev', i-1);
+          if (i==total-1) items[i].setAttribute('next', 0);
+          else items[i].setAttribute('next', i+1);
+        }
+        
+        items[total-2].classList.add('prev-end');
+        items[total-1].classList.add('prev-adj');
+        items[0].classList.add('active');
+        items[1].classList.add('next-adj');
+        items[2].classList.add('next-end');
       }
       constructor() {
         super();
-        this.assignNum();
+        this.init();
       }
       leftClick() {
-        const items = this.children;
-        for (var i=0; i<items.length; i++) {
-          var cur = parseInt(items[i].getAttribute('num')) + 1;
-          items[i].setAttribute('num', cur);
-        }
+        this.directionClick("left"); 
       }
       rightClick() {
+        this.directionClick("right");
+      }
+      directionClick(direction) {
         const items = this.children;
-        for (var i=0; i<items.length; i++) {
-          var cur = parseInt(items[i].getAttribute('num')) - 1;
-          items[i].setAttribute('num', cur);
+        
+        items[this.cur].classList.remove('active');
+        items[items[this.cur].next].classList.remove('next-adj');
+        items[items[this.cur].prev].classList.remove('prev-adj');
+        items[items[items[this.cur].next].next].classList.remove('next-end');
+        items[items[items[this.cur].prev].prev].classList.remove('prev-end');
+        
+        if (direction == "left") {
+          this.cur = items[this.cur].prev;
         }
+        else if (direction == "right") {
+          this.cur = items[this.cur].next;
+        }
+        items[this.cur].classList.add('active');
+        items[items[this.cur].next].classList.add('next-adj');
+        items[items[this.cur].prev].classList.add('prev-adj');
+        items[items[items[this.cur].next].next].classList.add('next-end');
+        items[items[items[this.cur].prev].prev].classList.add('prev-end');
       }
     }
 

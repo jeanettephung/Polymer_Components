@@ -24,22 +24,10 @@
       static get properties() {
         return {
           imgsrc: String,
-          num: {
-            notify: true,
-            type: Number
-          }
+          num: Number,
+          prev: Number,
+          next: Number
         };
-      }
-      ready() {
-        super.ready();
-        this.addEventListener('num-changed', function() {
-          for (var i=0; i<5; i++) {
-            console.log("CHANGE");
-            if (this.num >= 0 && this.num < 5) {
-              this.style.display = 'inline';
-            } else this.style.display = 'none';
-          }
-        });
       }
     }
 
