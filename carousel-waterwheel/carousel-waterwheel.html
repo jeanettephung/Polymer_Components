@@ -5,24 +5,59 @@
   <template>
     <style>
       :host {
-        display: flex;
-        text-align: center;
-        width: 100%;
+        display: block;
+        margin: 2rem 0;
       }
       ::slotted(*[num="2"]) {
-        flex-basis: 45%;
+        width: 40%;
         height: 150px;
+        z-index: 15;
       }
       ::slotted(*[num="1"]), ::slotted(*[num="3"]) {
-        flex-basis: 20%;
+        width: 30%;
         height: 125px;
+        z-index: 10;
       }
       ::slotted(*[num="0"]), ::slotted(*[num="4"]) {
-        flex-basis: 5%;
+        width: 25%;
         height: 100px;
+        z-index: 5;
+      }
+      slot {
+        z-index: 10;
+      }
+      #button-container {
+        align-items: center;
+        display: flex;
+        height: 10rem;
+        text-align: center;
+        width: 100%;
+        z-index: 15;
+      }
+      #button-container *:not(slot) {
+        height: 10rem;
+        width: 50%;
+        opacity: 0.4;
+        position: absolute;
+        z-index: 30;
+      }
+      #left-button {
+        left: 0;
+      }
+      #right-button {
+        right: 0;
+      }
+      img {
+        width: 100%;
       }
     </style>
-    <slot></slot>
+    
+    <div id="button-container">
+      <div id="left-button" on-click="leftClick"></div>
+      <div id="right-button" on-click="rightClick"></div>
+      <slot></slot>
+    </div>
+    
   </template>
 
   <script>
@@ -43,6 +78,20 @@
       constructor() {
         super();
         this.assignNum();
+      }
+      leftClick() {
+        const items = this.children;
+        for (var i=0; i<items.length; i++) {
+          var cur = parseInt(items[i].getAttribute('num')) + 1;
+          items[i].setAttribute('num', cur);
+        }
+      }
+      rightClick() {
+        const items = this.children;
+        for (var i=0; i<items.length; i++) {
+          var cur = parseInt(items[i].getAttribute('num')) - 1;
+          items[i].setAttribute('num', cur);
+        }
       }
     }
 

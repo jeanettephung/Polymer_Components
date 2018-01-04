@@ -5,12 +5,14 @@
     <style>
       :host {
         display: none;
-        margin: 1%;
+        margin: -2.5%;
         vertical-align: middle;
       }
-      img { 
+      img {
+        border: 1px solid #5f5e5e;
+        box-shadow: 0 8px 6px -6px #000000c9;
         height: inherit;
-        width: inherit; 
+        width: 100%; 
       }    
     </style>
     <img src="{{imgsrc}}">
@@ -32,10 +34,10 @@
         super.ready();
         this.addEventListener('num-changed', function() {
           for (var i=0; i<5; i++) {
-            console.log(this.num);
-            if (this.num == i) {
+            console.log("CHANGE");
+            if (this.num >= 0 && this.num < 5) {
               this.style.display = 'inline';
-            }
+            } else this.style.display = 'none';
           }
         });
       }
