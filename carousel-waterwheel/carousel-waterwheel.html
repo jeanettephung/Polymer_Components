@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer-element.html">
-<link rel="import" href="./carousel-item.html">
 
 <dom-module id="carousel-waterwheel">
   <template>
@@ -7,19 +6,26 @@
       :host {
         cursor: pointer;
         display: block;
-        margin: 2rem 0;
+        margin: 2rem 0 2rem 2.5%;
+      }
+      ::slotted(img) {
+        border: 1px solid #5f5e5e;
+        box-shadow: 0 8px 6px -6px #000000c9;
+        height: inherit;
+        width: 100%; 
       }
       ::slotted(*) {
+        display: none;
+        margin: -2.5%;
         transition-duration: 0.5s;
         transition-property: display, height, opacity, width, z-index;
-        display: none;
       }
       ::slotted(.active) {
         display: inline;
         height: 150px;
         opacity: 1;
         order: 3;
-        width: 55%;
+        width: 50%;
         z-index: 15;
       }::slotted(.prev-adj), ::slotted(.next-adj) {
         display: inline;
@@ -59,22 +65,26 @@
       #right-button {
         right: 0;
       }
-      img {
-        width: 100%;
-      }
       @media only screen and (min-width: 480px) {
+        :host {
+          margin: 2rem 0 2rem 3%;
+        }
+        ::slotted(*) {
+          margin: -3%;
+          vertical-align: middle;
+        }
         ::slotted(.active) {
-          width: 40%;
+          width: 35%;
         }
         ::slotted(.prev-adj), ::slotted(.next-adj) {
-          width: 30%;
+          width: 25%;
         }
         ::slotted(.prev-end), ::slotted(.next-end) {
           display: inline;
           height: 100px;
           opacity: 0.75;
           order: 1;
-          width: 25%;
+          width: 20%;
           z-index: 5;
         }
         ::slotted(.next-end) {
@@ -115,24 +125,24 @@
         var active = items[this.cur];
         //Remove class indicating active, adjacent and end
         active.classList.remove('active');
-        items[active.next].classList.remove('next-adj');
-        items[active.prev].classList.remove('prev-adj');
-        items[items[active.next].next].classList.remove('next-end');
-        items[items[active.prev].prev].classList.remove('prev-end');
+        items[active.getAttribute('next')].classList.remove('next-adj');
+        items[active.getAttribute('prev')].classList.remove('prev-adj');
+        items[items[active.getAttribute('next')].getAttribute('next')].classList.remove('next-end');
+        items[items[active.getAttribute('prev')].getAttribute('prev')].classList.remove('prev-end');
         //Set active based on direction
         if (direction == 'left') {
-          this.cur = active.prev;
+          this.cur = active.getAttribute('prev');
         }
         else if (direction == 'right') {
-          this.cur = active.next;
+          this.cur = active.getAttribute('next');
         }
         //Add class indicating active, adjacent and end
         active = items[this.cur];
         active.classList.add('active');
-        items[active.next].classList.add('next-adj');
-        items[active.prev].classList.add('prev-adj');
-        items[items[active.next].next].classList.add('next-end');
-        items[items[active.prev].prev].classList.add('prev-end');
+        items[active.getAttribute('next')].classList.add('next-adj');
+        items[active.getAttribute('prev')].classList.add('prev-adj');
+        items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
+        items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
       }
       init() {
         const items = this.children;
