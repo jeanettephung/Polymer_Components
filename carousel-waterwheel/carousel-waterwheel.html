@@ -5,6 +5,7 @@
   <template>
     <style>
       :host {
+        cursor: pointer;
         display: block;
         margin: 2rem 0;
       }
@@ -18,7 +19,7 @@
         height: 150px;
         opacity: 1;
         order: 3;
-        width: 40%;
+        width: 55%;
         z-index: 15;
       }::slotted(.prev-adj), ::slotted(.next-adj) {
         display: inline;
@@ -32,15 +33,7 @@
         order: 4;
       } 
       ::slotted(.prev-end), ::slotted(.next-end) {
-        display: inline;
-        height: 100px;
-        opacity: 0.75;
-        order: 1;
-        width: 25%;
-        z-index: 5;
-      }
-      ::slotted(.next-end) {
-        order: 5;
+        display: none;
       }
       slot {
         z-index: 10;
@@ -68,6 +61,25 @@
       img {
         width: 100%;
       }
+      @media only screen and (min-width: 480px) {
+        ::slotted(.active) {
+          width: 40%;
+        }
+        ::slotted(.prev-adj), ::slotted(.next-adj) {
+          width: 30%;
+        }
+        ::slotted(.prev-end), ::slotted(.next-end) {
+          display: inline;
+          height: 100px;
+          opacity: 0.75;
+          order: 1;
+          width: 25%;
+          z-index: 5;
+        }
+        ::slotted(.next-end) {
+          order: 5;
+        }
+      }
     </style>
     
     <div id="button-container">
@@ -83,59 +95,97 @@
       static get is() { return 'carousel-waterwheel'; }
       static get properties() {
         return {
+          autoplay: Number,
           cur: {
             type: Number,
             value: 0
-          }
+          },
+          pause: Number
         };
+      }
+      check_autoplay() {
+        if (this.getAttribute('autoplay') != null) {
+          const _this = this;
+          this.pause_autoplay(_this);
+        }
+      }
+      directionClick(direction) {
+        const items = this.children;
+        var active = items[this.cur];
+        //Remove class indicating active, adjacent and end
+        active.classList.remove('active');
+        items[active.next].classList.remove('next-adj');
+        items[active.prev].classList.remove('prev-adj');
+        items[items[active.next].next].classList.remove('next-end');
+        items[items[active.prev].prev].classList.remove('prev-end');
+        //Set active based on direction
+        if (direction == 'left') {
+          this.cur = active.prev;
+        }
+        else if (direction == 'right') {
+          this.cur = active.next;
+        }
+        //Add class indicating active, adjacent and end
+        active = items[this.cur];
+        active.classList.add('active');
+        items[active.next].classList.add('next-adj');
+        items[active.prev].classList.add('prev-adj');
+        items[items[active.next].next].classList.add('next-end');
+        items[items[active.prev].prev].classList.add('prev-end');
       }
       init() {
         const items = this.children;
         const total = items.length;
-        
+        //Set attributes next and prev for each carousel item
         for (var i = 0; i < total; i++) {
           if (i==0) items[i].setAttribute('prev', total-1);
           else items[i].setAttribute('prev', i-1);
           if (i==total-1) items[i].setAttribute('next', 0);
           else items[i].setAttribute('next', i+1);
         }
-        
+        //Add classes indicating active, adjacent and end
         items[total-2].classList.add('prev-end');
         items[total-1].classList.add('prev-adj');
         items[0].classList.add('active');
         items[1].classList.add('next-adj');
         items[2].classList.add('next-end');
       }
-      constructor() {
-        super();
-        this.init();
+      init_autoplay(_this) {
+        if (_this.getAttribute('autoplay') != null){
+          var timer;
+          if (this.autoplay == 0) timer = 1500;
+          else timer = this.autoplay;
+          
+          window.autoplay_interval = setInterval(function () {
+            _this.directionClick('right');
+            }, timer)    
+          }
       }
       leftClick() {
-        this.directionClick("left"); 
+        this.directionClick('left');
+        this.check_autoplay();
+      }
+      pause_autoplay(_this) {
+        clearInterval(window.autoplay_interval);
+        var pause_time;
+        if (this.pause) pause_time = this.pause;
+        else pause_time = 5000;
+        if (!window.autoplay_timeout) {
+          this._debouncer = Polymer.Debouncer.debounce(this._debouncer, Polymer.Async.timeOut.after(pause_time), () => {
+            this.init_autoplay(_this);
+          });
+        }
+      }
+      ready() {
+        super.ready();
+        const _this = this;
+
+        this.init();
+        this.init_autoplay(_this);
       }
       rightClick() {
-        this.directionClick("right");
-      }
-      directionClick(direction) {
-        const items = this.children;
-        
-        items[this.cur].classList.remove('active');
-        items[items[this.cur].next].classList.remove('next-adj');
-        items[items[this.cur].prev].classList.remove('prev-adj');
-        items[items[items[this.cur].next].next].classList.remove('next-end');
-        items[items[items[this.cur].prev].prev].classList.remove('prev-end');
-        
-        if (direction == "left") {
-          this.cur = items[this.cur].prev;
-        }
-        else if (direction == "right") {
-          this.cur = items[this.cur].next;
-        }
-        items[this.cur].classList.add('active');
-        items[items[this.cur].next].classList.add('next-adj');
-        items[items[this.cur].prev].classList.add('prev-adj');
-        items[items[items[this.cur].next].next].classList.add('next-end');
-        items[items[items[this.cur].prev].prev].classList.add('prev-end');
+        this.directionClick('right');
+        this.check_autoplay();
       }
     }
 

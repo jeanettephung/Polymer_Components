@@ -18,9 +18,17 @@
       </style>
     </custom-style>
   </head>
+  <style>
+    code {
+      background-color: #e4e4e4;
+      border-left: 3px solid red;
+      padding: 10px; 
+    }
+    highlight { background-color: yellow; }
+  </style>
   <body>
     <div class="vertical-section-container centered">
-      <h3>Basic carousel-waterwheel demo</h3>
+      <h2>Basic carousel-waterwheel demo</h2>
       <demo-snippet>
         <template>
           <carousel-waterwheel>
@@ -37,6 +45,34 @@
           </carousel-waterwheel>
         </template>
       </demo-snippet>
+    </div>
+    <div class="vertical-section-container centered">
+      <h3>Attribute: Autoplay and Pause</h3>
+      <demo-snippet>
+        <template>
+          <carousel-waterwheel autoplay>
+            <carousel-item imgsrc="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg"></carousel-item>
+            <carousel-item imgsrc="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png"></carousel-item>
+            <carousel-item imgsrc="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg"></carousel-item>
+            <carousel-item imgsrc="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg"></carousel-item>
+            <carousel-item imgsrc="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg"></carousel-item>
+            <carousel-item imgsrc="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg"></carousel-item>
+            <carousel-item imgsrc="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg"></carousel-item>
+            <carousel-item imgsrc="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE="></carousel-item>
+            <carousel-item imgsrc="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg"></carousel-item>
+            <carousel-item imgsrc="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg"></carousel-item>
+          </carousel-waterwheel>
+        </template>
+      </demo-snippet>
+      <p>Default autoplay speed is 1500ms. The autoplay speed can be specified by milliseconds.</p>
+      <code>
+        &lt;caoursel-waterwheel <highlight>autoplay=1500</highlight>&gt; ...
+      </code>
+      <p>When user is interacting with carousel, autoplay is temporarily deactivated for five seconds by default. Use attribute pause to set how long in milliseconds auto temporarily deactivated.</p>
+      <code>
+        &lt;caoursel-waterwheel autoplay=1500 <highlight>pause=500</highlight>&gt; ...
+      </code>
+      <br>
     </div>
   </body>
 </html>
