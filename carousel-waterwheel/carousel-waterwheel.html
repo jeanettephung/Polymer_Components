@@ -59,11 +59,11 @@
         width: 36%;
         z-index: 30;
       }
-      #buttonContainer #zoomButton {
+      #buttonContainer #previewButton {
         width: 55%;
         left: 23%;
       }
-      #zoomModal {
+      #previewModal {
         align-items: center;
         display: flex;
         height: 100%;
@@ -71,11 +71,11 @@
         position: absolute;
         width: 100%;
       }
-      #zoomModal #zoomImg.active {
+      #previewModal #previewImg.active {
         opacity: 1;
         pointer-events: inherit;
       }
-      #zoomModal #zoomImg {
+      #previewModal #previewImg {
         border: 2px outset whitesmoke;
         max-height: 150%;
         max-width: 80%;
@@ -110,7 +110,7 @@
         ::slotted(.next-end) {
           order: 5;
         }
-        #buttonContainer #zoomButton {
+        #buttonContainer #previewButton {
           width: 28%;
           left: 36%;
         }
@@ -120,12 +120,12 @@
       }
     </style>
 
-    <div id="zoomModal">
-      <img id="zoomImg" src="" on-click="closeZoom">
+    <div id="previewModal">
+      <img id="previewImg" src="" on-click="closePreview">
     </div>
     <div id="buttonContainer">
       <div id="leftButton" on-click="leftClick"></div>
-      <div id="zoomButton" on-click="activateZoom"></div>
+      <div id="previewButton" on-click="activatePreview"></div>
       <div id="rightButton" on-click="rightClick"></div>
       <slot></slot>
     </div>
@@ -137,17 +137,18 @@
       static get is() { return 'carousel-waterwheel'; }
       static get properties() {
         return {
+          actPreview: Boolean,
           autoplay: Number,
           cur: {
             type: Number,
             value: 0
           },
           pause: Number,
-          zoom: Boolean
+          preview: Boolean
         };
       }
-      activateZoom() {
-        this.$.zoomImg.classList.add('active');
+      activatePreview() {
+        if (this.preview) this.$.previewImg.classList.add('active');
       }
       check_autoplay() {
         if (this.getAttribute('autoplay') !== null) {
@@ -155,8 +156,8 @@
           this.pause_autoplay(_this);
         }
       }
-      closeZoom(){
-        this.$.zoomImg.classList.remove('active');
+      closePreview(){
+        this.$.previewImg.classList.remove('active');
       }
       directionClick(direction) {
         const items = this.children;
@@ -181,7 +182,7 @@
         items[active.getAttribute('prev')].classList.add('prev-adj');
         items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
         items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
-        this.zoom_click();
+        if (this.preview) this.preview_click();
       }
       init() {
         const items = this.children;
@@ -211,11 +212,10 @@
             }, timer)    
           }
       }
-      zoom_click() {
+      preview_click() {
         const items = this.children;
         var curImage = items[this.cur].getAttribute('src');
-        console.log(items[this.cur].getAttribute('src'));
-        this.$.zoomImg.setAttribute('src', curImage)
+        this.$.previewImg.setAttribute('src', curImage)
       }
       leftClick() {
         this.directionClick('left');
@@ -238,7 +238,8 @@
 
         this.init();
         this.init_autoplay(_this);
-        this.zoom_click();
+        this.preview_click();
+        if(this.actPreview) this.activatePreview();
       }
       rightClick() {
         this.directionClick('right');
