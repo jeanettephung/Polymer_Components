@@ -71,10 +71,6 @@
         position: absolute;
         width: 100%;
       }
-      #previewModal #previewImg.active {
-        opacity: 1;
-        pointer-events: inherit;
-      }
       #previewModal #previewImg {
         border: 2px outset whitesmoke;
         max-height: 150%;
@@ -85,6 +81,10 @@
         transition-duration: 0.5s;
         transition-property: opacity;
         z-index: 35;
+      }
+      #previewModal #previewImg.active {
+        opacity: 1;
+        pointer-events: inherit;
       }
       #rightButton {
         left: 78%;
@@ -143,6 +143,7 @@
             type: Number,
             value: 0
           },
+          data: Object,
           pause: Number,
           preview: Boolean
         };
@@ -212,11 +213,6 @@
             }, timer)    
           }
       }
-      preview_click() {
-        const items = this.children;
-        var curImage = items[this.cur].getAttribute('src');
-        this.$.previewImg.setAttribute('src', curImage)
-      }
       leftClick() {
         this.directionClick('left');
         this.check_autoplay();
@@ -231,6 +227,11 @@
             this.init_autoplay(_this);
           });
         }
+      }
+      preview_click() {
+        const items = this.children;
+        var curImage = items[this.cur].getAttribute('src');
+        this.$.previewImg.setAttribute('src', curImage)
       }
       ready() {
         super.ready();
