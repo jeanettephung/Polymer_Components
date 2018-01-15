@@ -144,8 +144,7 @@
             value: 0
           },
           data: {
-            type: Array,
-            value: function () { return []; }
+            type: Object
           },
           pause: Number,
           preview: Boolean
@@ -219,6 +218,7 @@
       init_data() {
         const data = this.data;
         const _this = this;
+        console.log(this.data);
         for (var i = 0; i < data.length; i++) {
           var image_data = document.createElement('img');
           image_data.setAttribute('src', data[i].src);
@@ -250,7 +250,6 @@
       ready() {
         super.ready();
         const _this = this;
-
         if (this.data) this.init_data();
         else this.init();
         
