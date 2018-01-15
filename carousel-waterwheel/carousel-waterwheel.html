@@ -63,6 +63,13 @@
         width: 55%;
         left: 23%;
       }
+      #captionBox p {
+        color: #464646;
+        font-family: sans-serif;
+        font-size: 1.4em;
+        font-weight: 400;
+        text-align: center;
+      }
       #previewModal {
         align-items: center;
         display: flex;
@@ -129,6 +136,7 @@
       <div id="rightButton" on-click="rightClick"></div>
       <slot></slot>
     </div>
+    <div id="captionBox"><p></p></div>
     
   </template>
 
@@ -139,6 +147,7 @@
         return {
           actPreview: Boolean,
           autoplay: Number,
+          caption: Boolean,
           cur: {
             type: Number,
             value: 0
@@ -186,6 +195,7 @@
         items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
         items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
         if (this.preview) this.preview_click();
+        if (this.caption) this.update_caption();
       }
       init() {
         const items = this.children;
@@ -218,7 +228,6 @@
       init_data() {
         const data = this.data;
         const _this = this;
-        console.log(this.data);
         for (var i = 0; i < data.length; i++) {
           var image_data = document.createElement('img');
           image_data.setAttribute('src', data[i].src);
@@ -247,6 +256,14 @@
         var curImage = items[this.cur].getAttribute('src');
         this.$.previewImg.setAttribute('src', curImage)
       }
+      update_caption() {
+        const captionBox = this.$.captionBox;
+        const caption = captionBox.getElementsByTagName('p')[0];
+        const items = this.children;
+        const active = items[this.cur];
+        const captionText = active.getAttribute('caption');
+        caption.textContent = captionText;
+      }
       ready() {
         super.ready();
         const _this = this;
@@ -256,7 +273,8 @@
         this.init_autoplay(_this);
         this.preview_click();
         
-        if(this.actPreview) this.activatePreview();
+        if (this.actPreview) this.activatePreview();
+        if (this.caption) this.update_caption();
       }
       rightClick() {
         this.directionClick('right');
