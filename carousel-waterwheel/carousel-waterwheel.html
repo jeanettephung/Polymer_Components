@@ -155,6 +155,7 @@
           data: {
             type: Object
           },
+          indicator: Boolean,
           pause: Number,
           preview: Boolean
         };
@@ -236,6 +237,9 @@
         }
         this.init();
       }
+      init_indicator() {
+        const items = this.children;
+      }
       leftClick() {
         this.directionClick('left');
         this.check_autoplay();
@@ -275,6 +279,7 @@
         
         if (this.actPreview) this.activatePreview();
         if (this.caption) this.update_caption();
+        if (this.indicator) this.init_indicator();
       }
       rightClick() {
         this.directionClick('right');
