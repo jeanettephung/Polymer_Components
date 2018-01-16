@@ -24,14 +24,15 @@
       ::slotted(.active) {
         display: inline;
         height: 150px;
-        opacity: 1;
+        opacity: var(--opacity-act, 1);
         order: 3;
         width: 53%;
         z-index: 15;
-      }::slotted(.prev-adj), ::slotted(.next-adj) {
+      }
+      ::slotted(.prev-adj), ::slotted(.next-adj) {
         display: inline;
         height: 125px;
-        opacity: 0.9;
+        opacity: var(--opacity-adj, 0.9);
         order: 2;
         width: 25%;
         z-index: 10;
@@ -109,7 +110,7 @@
         ::slotted(.prev-end), ::slotted(.next-end) {
           display: inline;
           height: 100px;
-          opacity: 0.75;
+          opacity: var(--opacity-end, 0.75);
           order: 1;
           width: 20%;
           z-index: 5;
@@ -226,6 +227,18 @@
             }, timer)    
           }
       }
+      init_custom_css() {
+        // opacity
+        var opacity;
+        const active = this.getElementsByClassName('active')[0];
+        console.log();
+        console.log(window);
+        style = window.getComputedStyle(_this);
+        console.log(style);
+
+        top = style.getPropertyValue('top');
+        
+      }
       init_data() {
         const data = this.data;
         const _this = this;
@@ -274,6 +287,7 @@
         if (this.data) this.init_data();
         else this.init();
         
+        this.init_custom_css(_this);
         this.init_autoplay(_this);
         this.preview_click();
         

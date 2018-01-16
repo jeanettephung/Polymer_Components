@@ -253,7 +253,7 @@ data='[
       <ul>
         <li>--opacity</li>
       </ul>
-      <p>Changes the opacity of the images. Depending on number of values given, the css rules applies as followed: </p>
+      <p>Changes the opacity of the images. This is the most general opacity rule and can be overwritten by the other two sets of opacity rules. Depending on number of values given, the css rules applies as followed: </p>
       <code>
         <p>--opacity: 1; // All displayed images given opacity of 1 </p>
         <p>--opacity: 1 0.75; // Active image given opacity 1 and the rest  has opacity 0.75 </p>
@@ -261,6 +261,20 @@ data='[
         <p>--opacity: 0 0.25 0.5 0.75 1; // From left to right, the images has the respective opacity: 0, 0.25, 0.5, 0.75, and 1 </p>
       </code>
       <p>On smaller screen views, only the active and adjacent images are displayed. All opacity rules apply, but the end images results cannot be seen although they are still applied.</p>
+      <p>The next set of opacity rules are to apply the opacity of images by group.</p>
+        <ul>
+          <li>--opacity-act</li>
+          <li>--opacity-adj</li>
+          <li>--opacity-end</li>
+        </ul>
+      <p>These opacity rules are to apply the opacity of images individually from left to right. Being the most specific, this set of opacity rules have the highest precedence over the other two sets of rules.</p>
+        <ul>
+          <li>--opacity-left-end</li>
+          <li>--opacity-left-adj</li>
+          <li>--opacity-act</li>
+          <li>--opacity-right-adj</li>
+          <li>--opacity-right-end</li>
+        </ul>
       <h3>Size</h3>
       <ul>
         <li>--carousel-height</li>
