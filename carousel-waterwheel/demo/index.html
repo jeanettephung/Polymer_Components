@@ -19,12 +19,13 @@
     </custom-style>
   </head>
   <style>
-    code {
+    code, pre {
       background-color: #e4e4e4;
       border-left: 3px solid red;
       padding: 10px; 
     }
     highlight { background-color: yellow; }
+    pre { white-space: pre-wrap; }
     ul { margin: 0; }
   </style>
   <body>
@@ -106,11 +107,16 @@
         &lt;img src=&quot;https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg&quot; <highlight>caption=&quot;A blue betta&quot;</highlight>&gt; ...
       </code>
       <p>When using the data attribute, the value in the "caption" key will be displayed.</p>
-      <code>
-        data='[ <br>
-          {&quot;src&quot;: &quot;https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg&quot;, <highlight>&quot;caption&quot;: &quot;A blue betta&quot;</highlight>}, ... <br>
-        ]'
-      </code>
+      <pre>
+data='[
+  {
+    &quot;src&quot;: &quot;https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg&quot;, 
+    
+    <highlight>&quot;caption&quot;: &quot;A blue betta&quot;</highlight>
+  },
+  ...
+]'
+      </pre>
       <br>
       
       <h3>Data</h3>
@@ -138,14 +144,16 @@
         <li>{src, caption}</li>
       </ul>
       <br>
-      <code>
-        &lt;caoursel-waterwheel <highlight>data='[
-          {"src": "url_1", "caption": "cap_1"}, 
-          {"src": "url_2", "caption": "cap_2"},
-          ,..., 
-          {"src": "url_n", "caption": "cap_n"}
-        ]'</highlight>&gt; ...
-      </code>
+      <pre>
+&lt;caoursel-waterwheel 
+  <highlight>data='[</highlight>
+    <highlight>{"src": "url_1", "caption": "cap_1"}, </highlight>
+    <highlight>{"src": "url_2", "caption": "cap_2"}, </highlight>
+    <highlight>,..., </highlight>
+    <highlight>{"src": "url_n", "caption": "cap_n"} </highlight>
+  <highlight>]'</highlight>
+&gt; ...
+      </pre>
       <br>
       
       <h3>Indicator</h3>
@@ -198,14 +206,48 @@
       <br>
       
       <h2>CSS Variables</h2>
-      <p>CSS Variables are used to style a certain part of the carousel-waterwheel element. Example of usage:</p>
-      <code></code>
+      <p>CSS Variables are used to style a certain part of the carousel-waterwheel element.</p>
+      <demo-snippet>
+        <template>
+          <style>
+            carousel-waterwheel {
+              --caption-color: red;
+              --caption-font-family: monospace;
+              --caption-font-size: 1em;
+              --caption-font-weight: bold;
+            }
+          </style>
+          <carousel-waterwheel caption>
+            <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg" caption="A blue betta">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png" caption="A blue-red betta">
+            <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg" caption="A red betta">
+            <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg" caption="A blue betta">
+            <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg" caption="A red-white betta">
+            <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg" caption="A blue-purple betta">
+            <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg" caption="A red-white-blue betta">
+            <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=" caption="A yellow-white betta">
+            <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg" caption="A white betta">
+            <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg" caption="A white-red betta">
+          </carousel-waterwheel>
+        </template>
+      </demo-snippet>
+      <p>Use by placing the css variable within "carousel-waterwheel" tags.</p>
+      <pre>
+  &lt;style&gt;
+    carousel-waterwheel {
+      --caption-color: red;
+      --caption-font-family: monospace;
+      --caption-font-size: 1em;
+      --caption-font-weight: bold;
+    }
+  &lt;/style&gt;
+      </pre>
       <h3>Caption</h3>
       <ul>
         <li>--caption-color</li>
         <li>--caption-font-family</li>
         <li>--caption-font-size</li>
-        <li>--caption-font-family</li>
+        <li>--caption-font-weight</li>
       </ul>
       <h3>Opacity</h3>
       <ul>
