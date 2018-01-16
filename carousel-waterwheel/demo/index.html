@@ -210,14 +210,14 @@ data='[
       <demo-snippet>
         <template>
           <style>
-            carousel-waterwheel {
+            #cssEx {
               --caption-color: red;
               --caption-font-family: monospace;
               --caption-font-size: 1em;
               --caption-font-weight: bold;
             }
           </style>
-          <carousel-waterwheel caption>
+          <carousel-waterwheel id="cssEx" caption>
             <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg" caption="A blue betta">
             <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png" caption="A blue-red betta">
             <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg" caption="A red betta">
@@ -231,7 +231,7 @@ data='[
           </carousel-waterwheel>
         </template>
       </demo-snippet>
-      <p>Use by placing the css variable within "carousel-waterwheel" tags.</p>
+      <p>Use by placing the css variables within css rule for the carousel-waterwheel element.</p>
       <pre>
   &lt;style&gt;
     carousel-waterwheel {
