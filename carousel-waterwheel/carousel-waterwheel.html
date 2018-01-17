@@ -177,27 +177,29 @@
       }
       directionClick(direction) {
         const items = this.children;
-        var active = items[this.cur];
-        //Remove class indicating active, adjacent and end
-        active.classList.remove('active');
-        items[active.getAttribute('next')].classList.remove('next-adj');
-        items[active.getAttribute('prev')].classList.remove('prev-adj');
-        items[items[active.getAttribute('next')].getAttribute('next')].classList.remove('next-end');
-        items[items[active.getAttribute('prev')].getAttribute('prev')].classList.remove('prev-end');
-        //Set active based on direction
-        if (direction == 'left') {
-          this.cur = active.getAttribute('prev');
+        if (items[this.cur]) {
+          var active = items[this.cur];
+          //Remove class indicating active, adjacent and end
+          active.classList.remove('active');
+          items[active.getAttribute('next')].classList.remove('next-adj');
+          items[active.getAttribute('prev')].classList.remove('prev-adj');
+          items[items[active.getAttribute('next')].getAttribute('next')].classList.remove('next-end');
+          items[items[active.getAttribute('prev')].getAttribute('prev')].classList.remove('prev-end');
+          //Set active based on direction
+          if (direction == 'left') {
+            this.cur = active.getAttribute('prev');
+          }
+          else if (direction == 'right') {
+            this.cur = active.getAttribute('next');
+          }
+          //Add class indicating active, adjacent and end
+          active = items[this.cur];
+          active.classList.add('active');
+          items[active.getAttribute('next')].classList.add('next-adj');
+          items[active.getAttribute('prev')].classList.add('prev-adj');
+          items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
+          items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
         }
-        else if (direction == 'right') {
-          this.cur = active.getAttribute('next');
-        }
-        //Add class indicating active, adjacent and end
-        active = items[this.cur];
-        active.classList.add('active');
-        items[active.getAttribute('next')].classList.add('next-adj');
-        items[active.getAttribute('prev')].classList.add('prev-adj');
-        items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
-        items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
         if (this.preview) this.preview_click();
         if (this.caption) this.update_caption();
       }
@@ -212,11 +214,11 @@
           else items[i].setAttribute('next', i+1);
         }
         //Add classes indicating active, adjacent and end
-        items[total-2].classList.add('prev-end');
-        items[total-1].classList.add('prev-adj');
-        items[0].classList.add('active');
-        items[1].classList.add('next-adj');
-        items[2].classList.add('next-end');
+        if (items[total-2]) items[total-2].classList.add('prev-end');
+        if (items[total-1]) items[total-1].classList.add('prev-adj');
+        if (items[0]) items[0].classList.add('active');
+        if (items[1]) items[1].classList.add('next-adj');
+        if (items[2]) items[2].classList.add('next-end');
       }
       init_autoplay(_this) {
         if (_this.getAttribute('autoplay') != null){
@@ -233,12 +235,7 @@
         // opacity
         const opacity = getComputedStyle(this).getPropertyValue("--opacity");
         if (opacity) {
-          console.log("opacity: " +opacity);
-          const opacity_val = opacity.split(" ");
-          console.log(opacity_val);
-          // if first value is "", remove empty string
-          if (opacity_val[0] === "") opacity_val.shift();
-          console.log(opacity_val);
+          const opacity_val = opacity.split(' ').filter(v=>v!='');
           if (opacity_val.length === 5) {
             this.style.setProperty('--opacity-left-end', opacity_val[0]);
             this.style.setProperty('--opacity-left-adj', opacity_val[1]);
@@ -250,7 +247,6 @@
             this.style.setProperty('--opacity-adj', opacity_val[1]);
             this.style.setProperty('--opacity-end', opacity_val[2]);
           } else if (opacity_val.length === 2) {
-            
             this.style.setProperty('--opacity-act', opacity_val[0]);
             this.style.setProperty('--opacity-adj', opacity_val[1]);
             this.style.setProperty('--opacity-end', opacity_val[1]);
@@ -294,14 +290,16 @@
       }
       preview_click() {
         const items = this.children;
-        var curImage = items[this.cur].getAttribute('src');
+        if (items[this.cur])
+          var curImage = items[this.cur].getAttribute('src');
         this.$.previewImg.setAttribute('src', curImage)
       }
       update_caption() {
         const captionBox = this.$.captionBox;
         const caption = captionBox.getElementsByTagName('p')[0];
         const items = this.children;
-        const active = items[this.cur];
+        if (items[this.cur]) 
+          var active = items[this.cur];
         const captionText = active.getAttribute('caption');
         caption.textContent = captionText;
       }

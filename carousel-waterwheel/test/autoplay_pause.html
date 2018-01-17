@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>autoplay and pause test</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+    <script src="../../web-component-tester/browser.js"></script>
+
+    <link rel="import" href="../carousel-waterwheel.html">
+  </head>
+  <body>
+
+    <test-fixture id="Default">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="Autoplay">
+      <template>
+        <carousel-waterwheel autoplay></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="AutoplayVal">
+      <template>
+        <carousel-waterwheel autoplay=2000></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="Pause">
+      <template>
+        <carousel-waterwheel autoplay pause></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="PauseVal">
+      <template>
+        <carousel-waterwheel autoplay pause=300></carousel-waterwheel>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('carousel-waterwheel', () => {
+
+        test('instantiating the element with default properties works', () => {
+          const test1 = fixture('Default');
+          assert.equal(test1.autoplay, undefined);
+          
+          const test2 = fixture('Autoplay');
+          assert.equal(test2.autoplay, 0);
+          
+          const test3 = fixture('AutoplayVal');
+          assert.equal(test3.autoplay, 2000);
+          
+          const test4 = fixture('Default');
+          assert.equal(test4.pause, undefined);
+          
+          const test5 = fixture('Pause');
+          assert.equal(test5.pause, 0);
+          
+          const test6 = fixture('PauseVal');
+          assert.equal(test6.pause, 300);
+        });
+
+//        test('setting a property on the element works', () => {
+//          // Create a test fixture
+//          const element = fixture('ChangedPropertyTestFixture');
+//          assert.equal(element.prop1, 'new-prop1');
+//          const elementShadowRoot = element.shadowRoot;
+//          const elementHeader = elementShadowRoot.querySelector('h2');
+//          assert.equal(elementHeader.innerHTML, 'Hello new-prop1!');
+//        });
+
+      });
+    </script>
+
+  </body>
+</html>
