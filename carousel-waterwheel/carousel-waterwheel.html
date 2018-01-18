@@ -283,7 +283,7 @@
         if (this.pause) pause_time = this.pause;
         else pause_time = 5000;
         if (!window.autoplay_timeout) {
-          this._debouncer = Polymer.Debouncer.debounce(this._debouncer, Polymer.Async.timeOut.after(pause_time), () => {
+          this._debounce = Polymer.Debouncer.debounce(this._debounce, Polymer.Async.timeOut.after(pause_time), () => {
             this.init_autoplay(_this);
           });
         }
