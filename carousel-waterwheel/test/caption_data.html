@@ -158,69 +158,98 @@
     </test-fixture>
 
 
-    <script>
-      //Default, Data, DefaultNoCaption, DataNoCaption, DefaultCaption, DefaultData, DefaultCaptionAlt, DataCaptionAlt
-      
+    <script>      
       suite('carousel-waterwheel', () => {
 
         test('No caption attribute should not display caption', () => {
           const el = fixture('Default');
-          const length = el.children.length;
           const shadow = el.shadowRoot;
           const rightBtn = shadow.getElementById('rightButton');
+
+          const dataEl = fixture('Data');
+          const dataShadow = dataEl.shadowRoot;
+          const dataRightBtn = dataShadow.getElementById('rightButton');
           
-          for (var i = 0; i < length; i++) {
-            const caption = (el.children[i]).getAttribute('caption');
-            assert.equal(caption, null);
-            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
-            assert.equal(display, '');
-            rightBtn.click();
+          function testCase(el, shadow, button) {
+            for (var i = 0; i < el.children.length; i++) {
+              const caption = (el.children[i]).getAttribute('caption');
+              assert.equal(caption, null);
+              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              button.click();
+            }
           }
+          
+          testCase(el, shadow, rightBtn);
+          testCase(dataEl, dataShadow, dataRightBtn);
         });
 
         test('With caption attribute with no caption on image display no caption', () => {
           const el = fixture('DefaultNoCaption');
-          const length = el.children.length;
           const shadow = el.shadowRoot;
           const rightBtn = shadow.getElementById('rightButton');
+          
+          const dataEl = fixture('DataNoCaption');
+          const dataShadow = dataEl.shadowRoot;
+          const dataRightBtn = dataShadow.getElementById('rightButton');
 
-          for (var i = 0; i < length; i++) {
-            const caption = (el.children[i]).getAttribute('caption');
-            assert.notEqual(caption, null);
-            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
-            assert.equal(display, '');
-            rightBtn.click();
+          function testCase(el, shadow, button) {
+            for (var i = 0; i < el.children.length; i++) {
+              const caption = (el.children[i]).getAttribute('caption');
+              assert.notEqual(caption, null);
+              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              assert.equal(display, '');
+              button.click();
+            }
           }
+          
+          testCase(el, shadow, rightBtn);
+          testCase(dataEl, dataShadow, dataRightBtn);
         });
         
         test('With caption attribute and caption on image display caption', () => {
           const el = fixture('DefaultCaption');
-          const length = el.children.length;
           const shadow = el.shadowRoot;
           const rightBtn = shadow.getElementById('rightButton');
           
-          for (var i = 0; i < length; i++) {
-            const caption = (el.children[i]).getAttribute('caption');
-            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
-            assert.equal(display, caption);
-            rightBtn.click();
+          const dataEl = fixture('DataCaption');
+          const dataShadow = dataEl.shadowRoot;
+          const dataRightBtn = dataShadow.getElementById('rightButton');
+
+          function testCase(el, shadow, button) {
+            for (var i = 0; i < el.children.length; i++) {
+              const caption = (el.children[i]).getAttribute('caption');
+              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              assert.equal(display, caption);
+              button.click();
+            }
           }
+          
+          testCase(el, shadow, rightBtn);
+          testCase(dataEl, dataShadow, dataRightBtn);
         });
         
         test('Images with caption attribute displays caption', () => {
           const el = fixture('DefaultCaptionAlt');
-          const length = el.children.length;
           const shadow = el.shadowRoot;
           const rightBtn = shadow.getElementById('rightButton');
           
-          for (var i = 0; i < length; i++) {
-            const caption = (el.children[i]).getAttribute('caption');
-            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
-            
-            if (i%2 === 0) assert.equal(display, '');
-            else assert.equal(display, caption);
-            rightBtn.click();
+          const dataEl = fixture('DataCaptionAlt');
+          const dataShadow = dataEl.shadowRoot;
+          const dataRightBtn = dataShadow.getElementById('rightButton');
+          
+          function testCase(el, shadow, button) {
+            for (var i = 0; i < el.children.length; i++) {
+              const caption = (el.children[i]).getAttribute('caption');
+              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+
+              if (i%2 === 0) assert.equal(display, '');
+              else assert.equal(display, caption);
+              button.click();
+            }
           }
+          
+          testCase(el, shadow, rightBtn);
+          testCase(dataEl, dataShadow, dataRightBtn);
         });
 
       });
