@@ -164,7 +164,7 @@
         };
       }
       activatePreview() {
-        if (this.preview) this.$.previewImg.classList.add('active');
+        if (this.preview || this.actPreview) this.$.previewImg.classList.add('active');
       }
       check_autoplay() {
         if (this.getAttribute('autoplay') !== null) {
@@ -200,8 +200,37 @@
           items[items[active.getAttribute('next')].getAttribute('next')].classList.add('next-end');
           items[items[active.getAttribute('prev')].getAttribute('prev')].classList.add('prev-end');
         }
-        if (this.preview) this.preview_click();
+        if (this.preview || this.activatePreview) {
+          this.preview_click();
+        }
         if (this.caption) this.update_caption();
+      }
+      css_opacity() {
+        const opacity = getComputedStyle(this).getPropertyValue("--opacity");
+        if (opacity) {
+          const opacity_val = opacity.split(' ').filter(v=>v!='');
+          if (opacity_val.length === 5) {
+            this.style.setProperty('--opacity-left-end', opacity_val[0]);
+            this.style.setProperty('--opacity-left-adj', opacity_val[1]);
+            this.style.setProperty('--opacity-act', opacity_val[2]);
+            this.style.setProperty('--opacity-right-adj', opacity_val[3]);
+            this.style.setProperty('--opacity-right-end', opacity_val[4]);
+          } else if (opacity_val.length === 3) {
+            this.style.setProperty('--opacity-act', opacity_val[0]);
+            this.style.setProperty('--opacity-adj', opacity_val[1]);
+            this.style.setProperty('--opacity-end', opacity_val[2]);
+          } else if (opacity_val.length === 2) {
+            this.style.setProperty('--opacity-act', opacity_val[0]);
+            this.style.setProperty('--opacity-adj', opacity_val[1]);
+            this.style.setProperty('--opacity-end', opacity_val[1]);
+          } else {
+            this.style.setProperty('--opacity-left-end', opacity_val[0]);
+            this.style.setProperty('--opacity-left-adj', opacity_val[0]);
+            this.style.setProperty('--opacity-act', opacity_val[0]);
+            this.style.setProperty('--opacity-right-adj', opacity_val[0]);
+            this.style.setProperty('--opacity-right-end', opacity_val[0]);
+          }
+        }
       }
       init() {
         const items = this.children;
@@ -232,32 +261,7 @@
           }
       }
       init_custom_css() {
-        // opacity
-        const opacity = getComputedStyle(this).getPropertyValue("--opacity");
-        if (opacity) {
-          const opacity_val = opacity.split(' ').filter(v=>v!='');
-          if (opacity_val.length === 5) {
-            this.style.setProperty('--opacity-left-end', opacity_val[0]);
-            this.style.setProperty('--opacity-left-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-act', opacity_val[2]);
-            this.style.setProperty('--opacity-right-adj', opacity_val[3]);
-            this.style.setProperty('--opacity-right-end', opacity_val[4]);
-          } else if (opacity_val.length === 3) {
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-end', opacity_val[2]);
-          } else if (opacity_val.length === 2) {
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-end', opacity_val[1]);
-          } else {
-            this.style.setProperty('--opacity-left-end', opacity_val[0]);
-            this.style.setProperty('--opacity-left-adj', opacity_val[0]);
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-right-adj', opacity_val[0]);
-            this.style.setProperty('--opacity-right-end', opacity_val[0]);
-          }
-        }
+        this.css_opacity();
       }
       init_data() {
         const data = this.data;
