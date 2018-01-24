@@ -24,7 +24,7 @@
       ::slotted(.active) {
         display: inline;
         height: 150px;
-        opacity: var(--opacity-act, 1);
+        opacity: var(--opacity-act, var(--opacity-gen-act, 1));
         order: 3;
         width: 53%;
         z-index: 15;
@@ -32,13 +32,13 @@
       ::slotted(.prev-adj), ::slotted(.next-adj) {
         display: inline;
         height: 125px;
-        opacity: var(--opacity-left-adj, var(--opacity-adj, 0.9));
+        opacity: var(--opacity-left-adj, var(--opacity-adj, var(--opacity-gen-left-adj, 0.9)));
         order: 2;
         width: 25%;
         z-index: 10;
       }
       ::slotted(.next-adj) {
-        opacity: var(--opacity-right-adj, var(--opacity-adj, 0.9));
+        opacity: var(--opacity-right-adj, var(--opacity-adj, var(--opacity-gen-right-adj, 0.9)));
         order: 4;
       } 
       ::slotted(.prev-end), ::slotted(.next-end) {
@@ -111,13 +111,13 @@
         ::slotted(.prev-end), ::slotted(.next-end) {
           display: inline;
           height: 100px;
-          opacity: var(--opacity-left-end, var(--opacity-end, 0.75));
+          opacity: var(--opacity-left-end, var(--opacity-end, var(--opacity-gen-left-end, 0.75)));
           order: 1;
           width: 20%;
           z-index: 5;
         }
         ::slotted(.next-end) {
-          opacity: var(--opacity-right-end, var(--opacity-end, 0.75));
+          opacity: var(--opacity-right-end, var(--opacity-end, var(--opacity-gen-right-end, 0.75)));
           order: 5;
         }
         #buttonContainer #previewButton {
@@ -160,7 +160,7 @@
           },
           indicator: Boolean,
           pause: Number,
-          preview: Boolean
+          preview: Boolean,
         };
       }
       activatePreview() {
@@ -207,28 +207,24 @@
       }
       css_opacity() {
         const opacity = getComputedStyle(this).getPropertyValue("--opacity");
+        
+        function setOpacity(_this, ov, o0, o1, o2, o3, o4) {
+          const opacityGen = ['--opacity-gen-left-end', '--opacity-gen-left-adj', '--opacity-gen-act', '--opacity-gen-right-adj', '--opacity-gen-right-end'];
+          for (var i = 0; i < opacityGen.length; i++)
+            _this.style.setProperty(opacityGen[i], ov[arguments[2+i]]);
+        }
+        
         if (opacity) {
           const opacity_val = opacity.split(' ').filter(v=>v!='');
+
           if (opacity_val.length === 5) {
-            this.style.setProperty('--opacity-left-end', opacity_val[0]);
-            this.style.setProperty('--opacity-left-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-act', opacity_val[2]);
-            this.style.setProperty('--opacity-right-adj', opacity_val[3]);
-            this.style.setProperty('--opacity-right-end', opacity_val[4]);
+            setOpacity(this, opacity_val, 0, 1, 2, 3, 4);
           } else if (opacity_val.length === 3) {
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-end', opacity_val[2]);
+            setOpacity(this, opacity_val, 2, 1, 0, 1, 2);
           } else if (opacity_val.length === 2) {
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-adj', opacity_val[1]);
-            this.style.setProperty('--opacity-end', opacity_val[1]);
+            setOpacity(this, opacity_val, 1, 1, 0, 1, 1);
           } else {
-            this.style.setProperty('--opacity-left-end', opacity_val[0]);
-            this.style.setProperty('--opacity-left-adj', opacity_val[0]);
-            this.style.setProperty('--opacity-act', opacity_val[0]);
-            this.style.setProperty('--opacity-right-adj', opacity_val[0]);
-            this.style.setProperty('--opacity-right-end', opacity_val[0]);
+            setOpacity(this, opacity_val, 0, 0, 0, 0, 0);
           }
         }
       }
@@ -321,6 +317,17 @@
         if (this.actPreview) this.activatePreview();
         if (this.caption) this.update_caption();
         if (this.indicator) this.init_indicator();
+        
+        var Observer = new MutationObserver(function(mutations) {
+          mutations.forEach((mutation) => {
+            if (mutation.oldValue != mutation.target.style.cssText) {
+              _this.css_opacity();
+            }
+          });
+        });
+        
+        Observer.observe(this, {attributes: true, attributeFilter: ['style'], attributeOldValue: true  });
+        
       }
       rightClick() {
         this.directionClick('right');
