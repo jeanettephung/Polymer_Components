@@ -60,7 +60,37 @@
         <carousel-waterwheel></carousel-waterwheel>
       </template>
     </test-fixture>
+    
+    <test-fixture id="OpacityLeftEnd">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
 
+    <test-fixture id="OpacityLeftAdj">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityAct">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityRightAdj">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityRightEnd">
+      <template>
+        <carousel-waterwheel></carousel-waterwheel>
+      </template>
+    </test-fixture>
+    
     <script>
 
       function setupEl(element) {
@@ -170,6 +200,96 @@
           setTimeout(function() {
             const retval = checkOpacity(el);
             assert.deepEqual(retval, [0.8, 0.55, 1, 0.55, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-end', (done) => {
+          const el = fixture('OpacityEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-end', '0.65');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.65, 0.6, 1, 0.6, 0.65]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-left-end', (done) => {
+          const el = fixture('OpacityLeftEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-left-end', '0.88');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.88, 0.6, 1, 0.6, 0.8]);
+            
+            el.style.setProperty('--opacity-end', '0.4')
+            setTimeout(function() {
+              const retval = checkOpacity(el);
+              assert.deepEqual(retval, [0.88, 0.6, 1, 0.6, 0.4]);
+              done();
+            }, 1000);
+          }, 1000);
+        });
+        
+        test('--opacity-left-adj', (done) => {
+          const el = fixture('OpacityLeftAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity-left-adj', '0.61');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.61, 1, 0.6, 0.8]);
+            
+            el.style.setProperty('--opacity-adj', '0.45')
+            setTimeout(function() {
+              const retval = checkOpacity(el);
+              assert.deepEqual(retval, [0.8, 0.61, 1, 0.45, 0.8]);
+              done();
+            }, 1000);
+          }, 1000);
+        });
+        
+        test('--opacity-act', (done) => {
+          const el = fixture('OpacityAct');
+          setupEl(el);
+          el.style.setProperty('--opacity-act', '0.5');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 0.5, 0.6, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-right-adj', (done) => {
+          const el = fixture('OpacityRightAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity-adj', '0.4')
+          el.style.setProperty('--opacity-right-adj', '0.64');
+            
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.75, 0.4, 1, 0.64, 0.75]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-right-end', (done) => {
+          const el = fixture('OpacityRightEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-right-end', '0.82');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 1, 0.6, 0.82]);
             done();
           }, 1000);
         });
