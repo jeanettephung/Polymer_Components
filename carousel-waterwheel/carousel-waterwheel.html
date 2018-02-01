@@ -228,7 +228,7 @@
           }
         }
       }
-      init() {
+      init(_this) {
         const items = this.children;
         const total = items.length;
         //Set attributes next and prev for each carousel item
@@ -244,24 +244,33 @@
         if (items[0]) items[0].classList.add('active');
         if (items[1]) items[1].classList.add('next-adj');
         if (items[2]) items[2].classList.add('next-end');
+        
+        this.init_custom_css(_this);
+        console.log('auto');
+        this.init_autoplay(_this);
+        this.preview_click();
+        
+        if (this.actPreview) this.activatePreview();
+        if (this.caption) this.update_caption();
+        if (this.indicator) this.init_indicator();
       }
       init_autoplay(_this) {
         if (_this.getAttribute('autoplay') != null){
           var timer;
           if (this.autoplay === 0) timer = 1500;
           else timer = this.autoplay;
-          
-          window.autoplay_interval = setInterval(function () {
-            _this.directionClick('right');
+          if(!window.autoplay_interval){
+            window.autoplay_interval = setInterval(function () {
+              _this.directionClick('right');
             }, timer)    
           }
+        }
       }
       init_custom_css() {
         this.css_opacity();
       }
       init_data() {
         // Check null or if populated
-        console.log(this.children);
         if (!this.data || this.children.length != 0)
           return;
         
@@ -274,7 +283,7 @@
             image_data.setAttribute('caption', data[i].caption);
           _this.appendChild(image_data);
         }
-        this.init();
+        this.init(_this);
       }
       init_indicator() {
         const items = this.children;
@@ -306,23 +315,17 @@
         const items = this.children;
         if (items[this.cur]) 
           var active = items[this.cur];
-        const captionText = active.getAttribute('caption');
-        caption.textContent = captionText;
+        if (active) {
+          var captionText = active.getAttribute('caption');
+          caption.textContent = captionText;
+        }
       }
       ready() {
         super.ready();
         
         const _this = this;
         if (this.data) this.init_data();
-        else this.init();
-        
-        this.init_custom_css(_this);
-        this.init_autoplay(_this);
-        this.preview_click();
-        
-        if (this.actPreview) this.activatePreview();
-        if (this.caption) this.update_caption();
-        if (this.indicator) this.init_indicator();
+        else this.init(_this);
         
         var Observer = new MutationObserver(function(mutations) {
           mutations.forEach((mutation) => {
