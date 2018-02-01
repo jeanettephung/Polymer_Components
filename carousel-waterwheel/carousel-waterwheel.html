@@ -156,7 +156,8 @@
             value: 0
           },
           data: {
-            type: Object
+            type: Object,
+            observer: 'init_data'
           },
           indicator: Boolean,
           pause: Number,
@@ -216,7 +217,6 @@
         
         if (opacity) {
           const opacity_val = opacity.split(' ').filter(v=>v!='');
-
           if (opacity_val.length === 5) {
             setOpacity(this, opacity_val, 0, 1, 2, 3, 4);
           } else if (opacity_val.length === 3) {
@@ -260,6 +260,11 @@
         this.css_opacity();
       }
       init_data() {
+        // Check null or if populated
+        console.log(this.children);
+        if (!this.data || this.children.length != 0)
+          return;
+        
         const data = this.data;
         const _this = this;
         for (var i = 0; i < data.length; i++) {
@@ -306,6 +311,7 @@
       }
       ready() {
         super.ready();
+        
         const _this = this;
         if (this.data) this.init_data();
         else this.init();
@@ -327,7 +333,7 @@
         });
         
         Observer.observe(this, {attributes: true, attributeFilter: ['style'], attributeOldValue: true  });
-        
+
       }
       rightClick() {
         this.directionClick('right');

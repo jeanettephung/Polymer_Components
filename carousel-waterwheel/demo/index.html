@@ -33,6 +33,7 @@
       <p>View images within carousel by clicking either the right or left of the active image.</p>
       <p>The carousel offers responsiveness by displaying five images on larger screen views and three on smaller or mobile screens.</p>
       <br>
+
       <demo-snippet>
         <template>
           <carousel-waterwheel>
@@ -70,11 +71,11 @@
       </demo-snippet>
       <p>Default autoplay speed is 1500ms. The autoplay speed can be specified by milliseconds.</p>
       <code>
-        &lt;caoursel-waterwheel <highlight>autoplay=1500</highlight>&gt; ...
+        &lt;carousel-waterwheel <highlight>autoplay=1500</highlight>&gt; ...
       </code>
       <p>When user is interacting with carousel, autoplay is temporarily deactivated for five seconds by default. Use attribute pause to set how long in milliseconds auto temporarily deactivated.</p>
       <code>
-        &lt;caoursel-waterwheel autoplay=1500 <highlight>pause=500</highlight>&gt; ...
+        &lt;carousel-waterwheel autoplay=1500 <highlight>pause=500</highlight>&gt; ...
       </code>
       <br>
       
@@ -99,7 +100,7 @@
       </demo-snippet>
       <p>To display caption, add the "caption" attribute to the carousel-waterwheel element. </p>
       <code>
-        &lt;caoursel-waterwheel <highlight>caption</highlight>&gt; ...
+        &lt;carousel-waterwheel <highlight>caption</highlight>&gt; ...
       </code>
       <p>This attribute will display the text given in the caption attribute of the images in the carousel-waterwheel element.</p>
       <code>
@@ -144,7 +145,7 @@ data='[
       </ul>
       <br>
       <pre>
-&lt;caoursel-waterwheel 
+&lt;carousel-waterwheel 
   <highlight>data='[</highlight>
     <highlight>{"src": "url_1", "caption": "cap_1"}, </highlight>
     <highlight>{"src": "url_2", "caption": "cap_2"}, </highlight>
@@ -154,6 +155,22 @@ data='[
 &gt; ...
       </pre>
       <br>
+      <p>Instead of inputting data into the data attribute, input data into a json file and set the data attribute with JavaScript.</p>
+      <pre>
+&lt;carousel-waterwheel id="jsonEx"&gt;&lt;/carousel-waterwheel&gt;   
+      
+&lt;script&gt;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState === 4 &amp;&amp; this.status === 200) {
+      var target = document.getElementById(<hightlight>'jsonEx'</hightlight>);
+      target.setAttribute('data', this.responseText);
+    }
+  };
+  xmlhttp.open('GET', <hightlight>'./../betta.json'</hightlight>, true);
+  xmlhttp.send(null);
+&lt;/script&gt;
+      </pre>
       
       <h3>Indicator</h3>
       <demo-snippet>
@@ -174,7 +191,7 @@ data='[
       </demo-snippet>
       <p>Indicators will appear below images, but above caption (if attribute is present). Indicators allow navigating through carousel by three (on smaller screens) or five (on larger screens).</p>
       <code>
-        &lt;caoursel-waterwheel <highlight>indicator</highlight>&gt; ...
+        &lt;carousel-waterwheel <highlight>indicator</highlight>&gt; ...
       </code>
       
       <h3>Preview</h3>
@@ -196,11 +213,11 @@ data='[
       </demo-snippet>
       <p>Clicking at the active image opens a preview of the image. Clicking on the preview will close it. Navigating through the carousel is still possible by clicking the right/left of the preview while being within the carousel.</p>
       <code>
-        &lt;caoursel-waterwheel <highlight>preview</highlight>&gt; ...
+        &lt;carousel-waterwheel <highlight>preview</highlight>&gt; ...
       </code>
       <p>To start carousel to initially show preview, add the act-preview attribute.</p>
       <code>
-        &lt;caoursel-waterwheel <highlight>act-preview</highlight>&gt; ...
+        &lt;carousel-waterwheel <highlight>act-preview</highlight>&gt; ...
       </code>
       <br>
       
@@ -360,6 +377,7 @@ data='[
           </carousel-waterwheel>
         </template>
       </demo-snippet>
+      
     </div>
   </body>
 </html>
