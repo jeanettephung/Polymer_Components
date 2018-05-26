@@ -23,18 +23,14 @@
       }
       ::slotted(.active) {
         display: inline;
-        height: 150px;
         opacity: var(--opacity-act, var(--opacity-gen-act, 1));
         order: 3;
-        width: 53%;
         z-index: 15;
       }
       ::slotted(.prev-adj), ::slotted(.next-adj) {
         display: inline;
-        height: 125px;
         opacity: var(--opacity-left-adj, var(--opacity-adj, var(--opacity-gen-left-adj, 0.9)));
         order: 2;
-        width: 25%;
         z-index: 10;
       }
       ::slotted(.next-adj) {
@@ -110,10 +106,8 @@
         }
         ::slotted(.prev-end), ::slotted(.next-end) {
           display: inline;
-          height: 100px;
           opacity: var(--opacity-left-end, var(--opacity-end, var(--opacity-gen-left-end, 0.75)));
           order: 1;
-          width: 20%;
           z-index: 5;
         }
         ::slotted(.next-end) {
