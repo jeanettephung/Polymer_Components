@@ -2,7 +2,8 @@
   "name": "jp-carousel",
   "main": "jp-carousel.js",
   "dependencies": {
-    "@polymer/polymer": "^3.0.0"
+    "@polymer/polymer": "^3.0.0",
+    "webcomponents-lite": "^0.6.0"
   },
   "devDependencies": {
     "@polymer/iron-demo-helpers": "^3.0.0-pre.19",

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>Opacity test</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <script type="module" src="../jp-carousel.js"></script>
+  </head>
+  <body>
+    
+    <test-fixture id="Default">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityGen">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityGen-ActAdj">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityGen-ActAdjEnd">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityGen-All">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityAct">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityAdj">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityEnd">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityLeftEnd">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+
+    <test-fixture id="OpacityLeftAdj">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityAct">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityRightAdj">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="OpacityRightEnd">
+      <template>
+        <jp-carousel></jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <script>
+
+      function setupEl(element) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function () {
+          if (this.readyState === 4 && this.status === 200) {
+            element.setAttribute('data', this.responseText);
+          }
+        };
+        xmlhttp.open('GET', './../betta.json', true);
+        xmlhttp.send(null);
+        return element;
+      }
+      
+      function checkOpacity(element) {
+        var retval = [];
+        const images = ['.next-end', '.next-adj', '.active', '.prev-adj', '.prev-end'];
+        
+        for (var i = 0; i < images.length; i++) {
+          var style = window.getComputedStyle(element.querySelector(images[i]), null);
+          var opacity = Number(style.getPropertyValue('opacity'));
+          retval.unshift(opacity);
+        }
+        return retval;
+      }
+            
+      suite('jp-carousel', () => {
+        
+        test('Default opacity', (done) => {
+          const el = fixture('Default');
+          setupEl(el);
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.75, 0.9, 1, 0.9, 0.75]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity: 1', (done) => {
+          const el = fixture('OpacityGen');
+          setupEl(el);
+          el.style.setProperty('--opacity', '1');
+
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [1, 1, 1, 1, 1]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity: 0.95 0.35', (done) => {
+          const el = fixture('OpacityGen-ActAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity', '0.95 0.35');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.35, 0.35, 0.95, 0.35, 0.35]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity: 1 0.6 0.8', (done) => {
+          const el = fixture('OpacityGen-ActAdjEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 1, 0.6, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity: 0 0.25 0.5 0.75 1', (done) => {
+          const el = fixture('OpacityGen-All');
+          setupEl(el);
+          el.style.setProperty('--opacity', '0 0.25 0.5 0.75 1');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            setupEl(el);
+            assert.deepEqual(retval, [0, 0.25, 0.5, 0.75, 1]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-act', (done) => {
+          const el = fixture('OpacityAct');
+          setupEl(el);
+          el.style.setProperty('--opacity-act', '0.12');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 0.12, 0.6, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-adj', (done) => {
+          const el = fixture('OpacityAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity-adj', '0.55');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.55, 1, 0.55, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-end', (done) => {
+          const el = fixture('OpacityEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-end', '0.65');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.65, 0.6, 1, 0.6, 0.65]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-left-end', (done) => {
+          const el = fixture('OpacityLeftEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-left-end', '0.88');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.88, 0.6, 1, 0.6, 0.8]);
+            
+            el.style.setProperty('--opacity-end', '0.4')
+            setTimeout(function() {
+              const retval = checkOpacity(el);
+              assert.deepEqual(retval, [0.88, 0.6, 1, 0.6, 0.4]);
+              done();
+            }, 1000);
+          }, 1000);
+        });
+        
+        test('--opacity-left-adj', (done) => {
+          const el = fixture('OpacityLeftAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity-left-adj', '0.61');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.61, 1, 0.6, 0.8]);
+            
+            el.style.setProperty('--opacity-adj', '0.45')
+            setTimeout(function() {
+              const retval = checkOpacity(el);
+              assert.deepEqual(retval, [0.8, 0.61, 1, 0.45, 0.8]);
+              done();
+            }, 1000);
+          }, 1000);
+        });
+        
+        test('--opacity-act', (done) => {
+          const el = fixture('OpacityAct');
+          setupEl(el);
+          el.style.setProperty('--opacity-act', '0.5');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 0.5, 0.6, 0.8]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-right-adj', (done) => {
+          const el = fixture('OpacityRightAdj');
+          setupEl(el);
+          el.style.setProperty('--opacity-adj', '0.4')
+          el.style.setProperty('--opacity-right-adj', '0.64');
+            
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.75, 0.4, 1, 0.64, 0.75]);
+            done();
+          }, 1000);
+        });
+        
+        test('--opacity-right-end', (done) => {
+          const el = fixture('OpacityRightEnd');
+          setupEl(el);
+          el.style.setProperty('--opacity-right-end', '0.82');
+          el.style.setProperty('--opacity', '1 0.6 0.8');
+          
+          setTimeout(function() {
+            const retval = checkOpacity(el);
+            assert.deepEqual(retval, [0.8, 0.6, 1, 0.6, 0.82]);
+            done();
+          }, 1000);
+        });
+        
+      });
+    </script>
+
+  </body>
+</html>

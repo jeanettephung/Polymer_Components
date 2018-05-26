@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>basic behavior</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <script type="module" src="../jp-carousel.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="Default">
+      <template>
+        <jp-carousel>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('jp-carousel', () => {
+        
+        test('Click right for two full cycles', () => {
+          const el = fixture('Default');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          
+          for (var i = 0; i < 19; i++) {
+            const before = (el.querySelector('.active')).getAttribute('next');
+            rightBtn.click();
+            const after = (el.querySelector('.active')).getAttribute('next');
+
+            if (i === 8 || i === 18)
+              assert.equal(after, 0);
+            else
+              assert.equal(parseInt(before)+1, after);
+          }
+        });
+        
+        test('Click left for two full cycles', () => {
+          const el = fixture('Default');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          
+          for (var i = 0; i < 20; i++) {
+            const before = (el.querySelector('.active')).getAttribute('prev');
+            leftBtn.click();
+            const after = (el.querySelector('.active')).getAttribute('prev');
+
+            if (i === 9 || i === 19)
+              assert.equal(after, 9);
+            else
+              assert.equal(parseInt(before)-1, after);
+          }
+        });
+        
+        test('R L R L R L R L', () => {
+          const el = fixture('Default');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          
+          for (var i = 0; i < 4; i++) {
+            var before = (el.querySelector('.active')).getAttribute('next');
+            rightBtn.click();
+            var after = (el.querySelector('.active')).getAttribute('next');
+            assert.equal(parseInt(before)+1, after);
+            
+            var before = after
+            leftBtn.click();
+            var after = (el.querySelector('.active')).getAttribute('next');
+            assert.equal(parseInt(before)-1, after);
+          }
+        });
+        
+        test('R R R L L L L L L', () => {
+          const el = fixture('Default');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          
+          for (var i = 0; i < 3; i++) rightBtn.click();
+          for (var i = 0; i < 6; i++) leftBtn.click();
+          
+          const cur = (el.querySelector('.active')).getAttribute('next');
+          assert.equal(cur, 8);
+        });
+        
+        test('L L L R L L L R R L L L R R R R R', () => {
+          const el = fixture('Default');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          
+          for (var i = 0; i < 3; i++) leftBtn.click();
+          rightBtn.click();
+          for (var i = 0; i < 3; i++) leftBtn.click();
+          for (var i = 0; i < 2; i++) rightBtn.click();
+          for (var i = 0; i < 3; i++) leftBtn.click();
+          for (var i = 0; i < 5; i++) rightBtn.click();
+          
+          const cur = (el.querySelector('.active')).getAttribute('next');
+          assert.equal(cur, 0);
+        });
+        
+      });
+    </script>
+
+  </body>
+</html>
