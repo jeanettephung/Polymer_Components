@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>jp-carousel demo</title>
+
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+
+    <script type="module">
+      import '@polymer/iron-demo-helpers/demo-pages-shared-styles';
+      import '@polymer/iron-demo-helpers/demo-snippet';
+    </script>
+
+    <script type="module" src="../jp-carousel.js"></script>
+
+    <custom-style>
+      <style is="custom-style" include="demo-pages-shared-styles">
+      </style>
+    </custom-style>
+    <style>
+    code, pre {
+      background-color: #e4e4e4;
+      border-left: 3px solid red;
+      padding: 10px; 
+    }
+    highlight { background-color: yellow; }
+    pre { white-space: pre-wrap; }
+    ul { margin: 0; }
+  </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h1>Basic jp-carousel demo</h1>
+      <p>View images within carousel by clicking either the right or left of the active image.</p>
+      <p>The carousel offers responsiveness by displaying five images on larger screen views and three on smaller or mobile screens.</p>
+      <br>
+
+      <demo-snippet>
+        <template>
+          <jp-carousel></jp-carousel>
+        </template>
+      </demo-snippet>
+      
+      <h2>Attributes</h2>
+      <h3>Autoplay and Pause</h3>
+      <demo-snippet>
+        <template>
+          <jp-carousel autoplay></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>Default autoplay speed is 1500ms. The autoplay speed can be specified by milliseconds.</p>
+      <code>
+        &lt;jp-carousel <highlight>autoplay=1500</highlight>&gt; ...
+      </code>
+      <p>When user is interacting with carousel, autoplay is temporarily deactivated for five seconds by default. Use attribute pause to set how long in milliseconds auto temporarily deactivated.</p>
+      <code>
+        &lt;jp-carousel autoplay=1500 <highlight>pause=500</highlight>&gt; ...
+      </code>
+      <br>
+      
+      <h3>Caption</h3>
+      <demo-snippet>
+        <template>
+          <jp-carousel caption></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>To display caption, add the "caption" attribute to the jp-carousel element. </p>
+      <code>
+        &lt;jp-carousel <highlight>caption</highlight>&gt; ...
+      </code>
+      <p>This attribute will display the text given in the caption attribute of the images in the jp-carousel element.</p>
+      <code>
+        &lt;img src=&quot;https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg&quot; <highlight>caption=&quot;A blue betta&quot;</highlight>&gt; ...
+      </code>
+      <p>When using the data attribute, the value in the "caption" key will be displayed.</p>
+      <pre>
+data='[
+  {
+    &quot;src&quot;: &quot;https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg&quot;, 
+    
+    <highlight>&quot;caption&quot;: &quot;A blue betta&quot;</highlight>
+  },
+  ...
+]'
+      </pre>
+      <br>
+      
+      <h3>Data</h3>
+      <demo-snippet>
+        <template>
+          <jp-carousel></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>The carousel can be initialized by setting the data attribute to an array of objects. The following objects are accepted:</p>
+      <ul>
+        <li>{src}</li>
+        <li>{src, caption}</li>
+      </ul>
+      <br>
+      <pre>
+&lt;jp-carousel
+  <highlight>data='[</highlight>
+    <highlight>{"src": "url_1", "caption": "cap_1"}, </highlight>
+    <highlight>{"src": "url_2", "caption": "cap_2"}, </highlight>
+    <highlight>,..., </highlight>
+    <highlight>{"src": "url_n", "caption": "cap_n"} </highlight>
+  <highlight>]'</highlight>
+&gt; ...
+      </pre>
+      <br>
+      <p>Instead of inputting data into the data attribute, input data into a json file and set the data attribute with JavaScript.</p>
+      <pre>
+&lt;jp-carousel id="jsonEx"&gt;&lt;/jp-carousel&gt;   
+      
+&lt;script&gt;
+  var xmlhttp = new XMLHttpRequest();
+  xmlhttp.onreadystatechange = function () {
+    if (this.readyState === 4 &amp;&amp; this.status === 200) {
+      var target = document.getElementById(<hightlight>'jsonEx'</hightlight>);
+      target.setAttribute('data', this.responseText);
+    }
+  };
+  xmlhttp.open('GET', <hightlight>'./../betta.json'</hightlight>, true);
+  xmlhttp.send(null);
+&lt;/script&gt;
+      </pre>
+      
+      <h3>Indicator</h3>
+      <demo-snippet>
+        <template>
+          <jp-carousel indicator></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>Indicators will appear below images, but above caption (if attribute is present). Indicators allow navigating through carousel by three (on smaller screens) or five (on larger screens).</p>
+      <code>
+        &lt;jp-carousel <highlight>indicator</highlight>&gt; ...
+      </code>
+      
+      <h3>Preview</h3>
+      <demo-snippet>
+        <template>
+          <jp-carousel act-preview></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>Clicking at the active image opens a preview of the image. Clicking on the preview will close it. Navigating through the carousel is still possible by clicking the right/left of the preview while being within the carousel.</p>
+      <code>
+        &lt;jp-carousel <highlight>preview</highlight>&gt; ...
+      </code>
+      <p>To start carousel to initially show preview, add the act-preview attribute.</p>
+      <code>
+        &lt;jp-carousel <highlight>act-preview</highlight>&gt; ...
+      </code>
+      <br>
+      
+      <h2>CSS Variables</h2>
+      <p>CSS Variables are used to style a certain part of the jp-carousel element.</p>
+      <demo-snippet>
+        <template>
+          <style>
+            #cssEx {
+              --caption-color: red;
+              --caption-font-family: monospace;
+              --caption-font-size: 1em;
+              --caption-font-weight: bold;
+              
+              --opacity: 0.1 0.5 1;
+            }
+          </style>
+          <jp-carousel id="cssEx" caption></jp-carousel>
+        </template>
+      </demo-snippet>
+      <p>Use by placing the css variables within css rule for the jp-carousel element.</p>
+      <pre>
+  &lt;style&gt;
+    jp-carousel {
+      --caption-color: red;
+      --caption-font-family: monospace;
+      --caption-font-size: 1em;
+      --caption-font-weight: bold;
+    }
+  &lt;/style&gt;
+      </pre>
+      <h3>Caption</h3>
+      <ul>
+        <li>--caption-color</li>
+        <li>--caption-font-family</li>
+        <li>--caption-font-size</li>
+        <li>--caption-font-weight</li>
+      </ul>
+      <h3>Opacity</h3>
+      <ul>
+        <li>--opacity</li>
+      </ul>
+      <p>Changes the opacity of the images. This is the most general opacity rule and can be overwritten by the other two sets of opacity rules. Depending on number of values given, the css rules applies as followed: </p>
+      <code>
+        <p>--opacity: 1; // All displayed images given opacity of 1 </p>
+        <p>--opacity: 1 0.75; // Active image given opacity 1 and the rest  has opacity 0.75 </p>
+        <p>--opacity: 1 0.75 0.5; // Active image has opacity 1, adjacent images has opacity 0.75, and end images has opacity 0.75 </p>
+        <p>--opacity: 0 0.25 0.5 0.75 1; // From left to right, the images has the respective opacity: 0, 0.25, 0.5, 0.75, and 1 </p>
+      </code>
+      <p>On smaller screen views, only the active and adjacent images are displayed. All opacity rules apply, but the end images results cannot be seen although they are still applied.</p>
+      <p>The next set of opacity rules are to apply the opacity of images by group.</p>
+        <ul>
+          <li>--opacity-act</li>
+          <li>--opacity-adj</li>
+          <li>--opacity-end</li>
+        </ul>
+      <p>These opacity rules are to apply the opacity of images individually from left to right. Being the most specific, this set of opacity rules have the highest precedence over the other two sets of rules.</p>
+        <ul>
+          <li>--opacity-left-end</li>
+          <li>--opacity-left-adj</li>
+          <li>--opacity-act</li>
+          <li>--opacity-right-adj</li>
+          <li>--opacity-right-end</li>
+        </ul>
+      <h3>Size</h3>
+      <ul>
+        <li>--carousel-height</li>
+        <li>--carousel-width</li>
+      </ul>
+      <br>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    var xmlhttp = new XMLHttpRequest();
+    xmlhttp.onreadystatechange = function () {
+      if (this.readyState === 4 && this.status === 200) {
+        var target = document.getElementsByTagName('jp-carousel');
+        for (var i = 0; i < target.length; i++) {
+          target[i].setAttribute('data', this.responseText);
+        }
+      }
+    };
+    xmlhttp.open('GET', '/betta.json', true);
+    xmlhttp.send(null);
+  });
+</script>
