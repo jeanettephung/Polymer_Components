@@ -156,10 +156,47 @@
         </carousel-waterwheel>
       </template>
     </test-fixture>
+    
+     <test-fixture id="ApplyStyle">
+      <template>
+        <style>
+          #ApplyStyle {
+            --caption-color: blue;
+            --caption-font-family: monospace;
+            --caption-font-size: 8px;
+            --caption-font-weight: 200;
+          }
+        </style>
+        <carousel-waterwheel caption
+          data='[
+            {"src": "https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg"},
+            {"src": "https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png", "caption": "A blue-red betta"},
+            {"src": "https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg"},
+            {"src": "https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg", "caption": "A blue betta"},
+            {"src": "https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg"},
+            {"src": "http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg", "caption": "A blue-purple betta"},
+            {"src": "https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg"},
+            {"src": "https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=", "caption": "A yellow-white betta"},
+            {"src": "http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg"},
+            {"src": "https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg", "caption": "A white-red betta"}
+        ]'>
+        </carousel-waterwheel>
+      </template>
+    </test-fixture>
 
 
     <script>      
       suite('carousel-waterwheel', () => {
+        
+        function testCase(el, shadow, button, assert1, assert2) {
+          for (var i = 0; i < el.children.length; i++) {
+            const caption = (el.children[i]).getAttribute('caption');
+            assert.equal(caption, null);
+            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+            button.click();
+            assert.equal(assert1, assert2);
+          }
+        }
 
         test('No caption attribute should not display caption', () => {
           const el = fixture('Default');
@@ -250,6 +287,47 @@
           
           testCase(el, shadow, rightBtn);
           testCase(dataEl, dataShadow, dataRightBtn);
+        });
+        
+        test('Test styles rules: --caption-color, --caption-font-family, --caption-font-size, --caption-font-weight', () => {  
+          function checkValues (element, color, fontF, fontS, fontW) {
+            const style = window.getComputedStyle(element, null);
+            var retval = [];
+            
+            retval.push(style.getPropertyValue('--caption-color').trim());
+            retval.push(style.getPropertyValue('--caption-font-family').trim());
+            retval.push(style.getPropertyValue('--caption-font-size').trim());
+            retval.push(style.getPropertyValue('--caption-font-weight').trim()); 
+
+            assert.deepEqual(retval, [color, fontF, fontS, fontW]);
+          }
+          
+          function testCase(el, shadow, button) {
+            for (var i = 0; i < el.children.length; i++) {
+              const caption = (el.children[i]).getAttribute('caption');
+              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+
+              if (i%2 === 0) assert.equal(display, '');
+              else assert.equal(display, caption);
+              button.click();
+            }
+          }
+          
+          const fixtureEl = fixture('ApplyStyle');
+          const el = fixtureEl[1];
+          checkValues(el, 'blue', 'monospace', '8px', '200');
+          
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          
+          const dataEl = fixture('DataCaptionAlt');
+          const dataShadow = dataEl.shadowRoot;
+          const dataRightBtn = dataShadow.getElementById('rightButton');
+          
+          
+          testCase(el, shadow, rightBtn);
+          testCase(dataEl, dataShadow, dataRightBtn);
+          checkValues(el, 'blue', 'monospace', '8px', '200');
         });
 
       });
