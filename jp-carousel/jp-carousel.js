@@ -169,18 +169,36 @@ export class JpCarousel extends PolymerElement {
       preview: Boolean,
     };
   }
+  /**
+   * Triggered when preview set to true of user clicks on current image.
+   * Opens preview of current image.
+   */
   activatePreview() {
     if (this.preview || this.actPreview) this.$.previewImg.classList.add('active');
   }
+  /**
+   * When user navigates through carousel, checks if autoplay is active.
+   * If is active, autoplay is paused to not interfere with user interaction with carousel.
+   */
   check_autoplay() {
     if (this.getAttribute('autoplay') !== null) {
       const _this = this;
       this.pause_autoplay(_this);
     }
   }
+  /**
+   * Triggered when user clicks on preview image.
+   * Closes preview image.
+   */
   closePreview(){
     this.$.previewImg.classList.remove('active');
   }
+  /**
+   * Triggered either by autoplay or user interaction.
+   * Navigates through carousel.
+   * @param {string} direction: takes in value 'left' or 'right' to determine which
+   *    direction to navigate carousel
+   */
   directionClick(direction) {
     const items = this.children;
     if (items[this.cur]) {
@@ -211,6 +229,10 @@ export class JpCarousel extends PolymerElement {
     }
     if (this.caption) this.update_caption();
   }
+  /**
+   * Creates custom shorthand css rules for --opacity (similiar to border, margin, etc.).
+   * Ex. --opacity: 0.1 0.5 1 sets active=0.1, adjacent=0.5, and end=1.
+   */
   css_opacity() {
     const opacity = getComputedStyle(this).getPropertyValue("--opacity");
     
@@ -233,6 +255,17 @@ export class JpCarousel extends PolymerElement {
       }
     }
   }
+  /**
+   * Initializes polymer element by 
+   * - setting attributes for navigating carousel items (next, prev)
+   * - inidicating which carousel items are active, adjacent, and end (used for css)
+   * - applying custom css rules
+   * - starting autoplay (if autoplay set to true)
+   * - setting up preview and display preview (if preview set to true)
+   * - displaying caption (if caption set to true)
+   * - setup indicators (if indicator set to true)
+   * @param {jp-carousel} _this
+   */
   init(_this) {
     const items = this.children;
     const total = items.length;
@@ -258,6 +291,11 @@ export class JpCarousel extends PolymerElement {
     if (this.caption) this.update_caption();
     if (this.indicator) this.init_indicator();
   }
+  /**
+   * Initializes autoplay if set to true.
+   * Creates a timer to automatically navigate through carousel.
+   * @param {jp-carousel} _this 
+   */
   init_autoplay(_this) {
     if (_this.getAttribute('autoplay') != null){
       var timer;
@@ -270,9 +308,16 @@ export class JpCarousel extends PolymerElement {
       }
     }
   }
+  /**
+   * Applies custom css to carousel.
+   */
   init_custom_css() {
     this.css_opacity();
   }
+  /**
+   * Initilizes data (if given through data attribute) and creates carousel items.
+   * Also sets caption (if set to true and provided).
+   */
   init_data() {
     // Check null or if populated
     if (!this.data || this.children.length != 0)
@@ -289,13 +334,25 @@ export class JpCarousel extends PolymerElement {
     }
     this.init(_this);
   }
+  /**
+   * TODO
+   * Initializes indicator.
+   */
   init_indicator() {
     const items = this.children;
   }
+  /**
+   * Triggered by user to navigate carousel to the left.
+   */
   leftClick() {
     this.directionClick('left');
     this.check_autoplay();
   }
+  /**
+   * Triggers by user when navigating through carousel.
+   * Temparily pauses carousel until no user interaction for default (5 sec) or pause_time (set by user).
+   * @param {jp-carousel} _this 
+   */
   pause_autoplay(_this) {
     clearInterval(window.autoplay_interval);
     var pause_time;
@@ -307,12 +364,20 @@ export class JpCarousel extends PolymerElement {
       });
     }
   }
+  /**
+   * Triggered when user clicks on active carousel item.
+   * Opens preview of active carousel item, or closes preview if open.
+   */
   preview_click() {
     const items = this.children;
     if (items[this.cur])
       var curImage = items[this.cur].getAttribute('src');
     this.$.previewImg.setAttribute('src', curImage)
   }
+  /**
+   * Triggered when navigating through carousel.
+   * Updates caption to associated active carousel item's carousel.
+   */
   update_caption() {
     const captionBox = this.$.captionBox;
     const caption = captionBox.getElementsByTagName('p')[0];
@@ -347,6 +412,9 @@ export class JpCarousel extends PolymerElement {
     Observer.observe(this, {attributes: true, attributeFilter: ['style'], attributeOldValue: true  });
 
   }
+  /**
+   * Triggered by user to navigate carousel to the left.
+   */
   rightClick() {
     this.directionClick('right');
     this.check_autoplay();
