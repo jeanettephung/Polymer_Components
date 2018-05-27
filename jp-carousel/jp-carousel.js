@@ -372,7 +372,8 @@ export class JpCarousel extends PolymerElement {
     const items = this.children;
     if (items[this.cur])
       var curImage = items[this.cur].getAttribute('src');
-    this.$.previewImg.setAttribute('src', curImage)
+    if (curImage)
+      this.$.previewImg.setAttribute('src', curImage)
   }
   /**
    * Updates caption to associated active carousel item's carousel.
