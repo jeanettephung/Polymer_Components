@@ -1,4 +1,6 @@
 import { PolymerElement, html } from '@polymer/polymer/polymer-element.js';
+import { timeOut } from '@polymer/polymer/lib/utils/async.js';
+import { Debouncer } from '@polymer/polymer/lib/utils/debounce.js';
 
 /**
  * `jp-carousel`
@@ -166,7 +168,7 @@ export class JpCarousel extends PolymerElement {
       },
       indicator: Boolean,
       pause: Number,
-      preview: Boolean,
+      preview: Boolean
     };
   }
   /**
@@ -177,7 +179,7 @@ export class JpCarousel extends PolymerElement {
     if (this.preview || this.actPreview) this.$.previewImg.classList.add('active');
   }
   /**
-   * When user navigates through carousel, checks if autoplay is active.
+   * Checks if autoplay is active.
    * If is active, autoplay is paused to not interfere with user interaction with carousel.
    */
   check_autoplay() {
@@ -194,8 +196,7 @@ export class JpCarousel extends PolymerElement {
     this.$.previewImg.classList.remove('active');
   }
   /**
-   * Triggered either by autoplay or user interaction.
-   * Navigates through carousel.
+   * Navigates through carousel in specified direction.
    * @param {string} direction: takes in value 'left' or 'right' to determine which
    *    direction to navigate carousel
    */
@@ -304,7 +305,7 @@ export class JpCarousel extends PolymerElement {
       if(!window.autoplay_interval){
         window.autoplay_interval = setInterval(function () {
           _this.directionClick('right');
-        }, timer)    
+        }, timer);
       }
     }
   }
@@ -349,23 +350,22 @@ export class JpCarousel extends PolymerElement {
     this.check_autoplay();
   }
   /**
-   * Triggers by user when navigating through carousel.
    * Temparily pauses carousel until no user interaction for default (5 sec) or pause_time (set by user).
    * @param {jp-carousel} _this 
    */
   pause_autoplay(_this) {
     clearInterval(window.autoplay_interval);
+    window.autoplay_interval = undefined;
     var pause_time;
     if (this.pause) pause_time = this.pause;
     else pause_time = 5000;
-    if (!window.autoplay_timeout) {
-      this._debounce = Polymer.Debouncer.debounce(this._debounce, Polymer.Async.timeOut.after(pause_time), () => {
-        this.init_autoplay(_this);
-      });
-    }
+
+    // Debounce function to prevent carousel from trying to start autoplay more than once
+    this._debounce = Debouncer.debounce(this._debounce, timeOut.after(pause_time), () => {
+      this.init_autoplay(_this);
+    });
   }
   /**
-   * Triggered when user clicks on active carousel item.
    * Opens preview of active carousel item, or closes preview if open.
    */
   preview_click() {
@@ -375,7 +375,6 @@ export class JpCarousel extends PolymerElement {
     this.$.previewImg.setAttribute('src', curImage)
   }
   /**
-   * Triggered when navigating through carousel.
    * Updates caption to associated active carousel item's carousel.
    */
   update_caption() {
@@ -413,7 +412,7 @@ export class JpCarousel extends PolymerElement {
 
   }
   /**
-   * Triggered by user to navigate carousel to the left.
+   * Navigate carousel to the left.
    */
   rightClick() {
     this.directionClick('right');
