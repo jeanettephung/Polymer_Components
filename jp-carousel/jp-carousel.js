@@ -59,31 +59,31 @@ export class JpCarousel extends PolymerElement {
       slot {
         z-index: 10;
       }
-      #buttonContainer {
+      .button__container {
         align-items: center;
         display: flex;
         height: 10rem;
         position: relative;
         z-index: 15;
       }
-      #buttonContainer *:not(slot) {
+      .button__container *:not(slot) {
         height: 10rem;
         position: absolute;
         width: 36%;
         z-index: 30;
       }
-      #buttonContainer #previewButton {
+      .button__preview {
         width: 55%;
         left: 23%;
       }
-      #captionBox p {
+      .caption__text {
         color: var(--caption-color, #464646);
         font-family: var(--caption-font-family, sans-serif);
         font-size: var(--caption-font-size, 1.4em);
         font-weight: var(--caption-font-weight, 400);
         text-align: center;
       }
-      #previewModal {
+      .preview__modal {
         align-items: center;
         display: flex;
         height: 100%;
@@ -91,7 +91,7 @@ export class JpCarousel extends PolymerElement {
         position: absolute;
         width: 100%;
       }
-      #previewModal #previewImg {
+      .preview__img {
         border: 2px outset whitesmoke;
         max-height: 150%;
         max-width: 80%;
@@ -102,11 +102,11 @@ export class JpCarousel extends PolymerElement {
         transition-property: opacity;
         z-index: 35;
       }
-      #previewModal #previewImg.active {
+      .preview__img.active {
         opacity: 1;
         pointer-events: inherit;
       }
-      #rightButton {
+      .button__right {
         left: 78%;
       }
       @media only screen and (min-width: 480px) {
@@ -131,26 +131,29 @@ export class JpCarousel extends PolymerElement {
           opacity: var(--opacity-right-end, var(--opacity-end, var(--opacity-gen-right-end, 0.75)));
           order: 5;
         }
-        #buttonContainer #previewButton {
+        .button__preview {
           width: 28%;
           left: 36%;
         }
-        #rightButton {
+        .button__right {
           left: 64%;
         }
       }
     </style>
 
-    <div id="previewModal">
-      <img id="previewImg" src="" on-click="closePreview">
+    <div class="preview__modal">
+      <img class="preview__img" src="" on-click="closePreview">
     </div>
-    <div id="buttonContainer">
-      <div id="leftButton" on-click="leftClick"></div>
-      <div id="previewButton" on-click="activatePreview"></div>
-      <div id="rightButton" on-click="rightClick"></div>
+    <div class="button__container">
+      <div class="button__left" on-click="leftClick"></div>
+      <div class="button__preview" on-click="activatePreview"></div>
+      <div class="button__right" on-click="rightClick"></div>
       <slot></slot>
     </div>
-    <div id="captionBox"><p></p></div>
+    <div class="indicator"></div>
+    <div class="caption">
+      <p class="caption__text"></p>
+    </div>
     `;
   }
   static get properties() {
@@ -176,7 +179,7 @@ export class JpCarousel extends PolymerElement {
    * Opens preview of current image.
    */
   activatePreview() {
-    if (this.preview || this.actPreview) this.$.previewImg.classList.add('active');
+    if (this.preview || this.actPreview) this.shadowRoot.querySelector('.preview__modal .preview__img').classList.add('active');
   }
   /**
    * Checks if autoplay is active.
@@ -193,7 +196,7 @@ export class JpCarousel extends PolymerElement {
    * Closes preview image.
    */
   closePreview(){
-    this.$.previewImg.classList.remove('active');
+    this.querySelector('.preview__img').classList.remove('active');
   }
   /**
    * Navigates through carousel in specified direction.
@@ -235,7 +238,7 @@ export class JpCarousel extends PolymerElement {
    * Ex. --opacity: 0.1 0.5 1 sets active=0.1, adjacent=0.5, and end=1.
    */
   css_opacity() {
-    const opacity = getComputedStyle(this).getPropertyValue("--opacity");
+    const opacity = getComputedStyle(this).getPropertyValue('--opacity');
     
     function setOpacity(_this, ov, o0, o1, o2, o3, o4) {
       const opacityGen = ['--opacity-gen-left-end', '--opacity-gen-left-adj', '--opacity-gen-act', '--opacity-gen-right-adj', '--opacity-gen-right-end'];
@@ -373,13 +376,13 @@ export class JpCarousel extends PolymerElement {
     if (items[this.cur])
       var curImage = items[this.cur].getAttribute('src');
     if (curImage)
-      this.$.previewImg.setAttribute('src', curImage)
+      this.shadowRoot.querySelector('.preview__modal .preview__img').setAttribute('src', curImage)
   }
   /**
    * Updates caption to associated active carousel item's carousel.
    */
   update_caption() {
-    const captionBox = this.$.captionBox;
+    const captionBox = this.shadowRoot.querySelector('.caption');
     const caption = captionBox.getElementsByTagName('p')[0];
     const items = this.children;
     if (items[this.cur]) 
