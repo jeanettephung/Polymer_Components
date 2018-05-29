@@ -83,6 +83,21 @@ export class JpCarousel extends PolymerElement {
         font-weight: var(--caption-font-weight, 400);
         text-align: center;
       }
+      .indicator__container {
+        display: flex;
+        justify-content: center;
+        margin: 1rem auto;
+      }
+      .indicator:before {
+        content: '◯';
+        margin: 0 0.15rem;
+      }
+      .indicator.active:before {
+        content: '⬤';
+        bottom: 0.0625rem;
+        font-size: 13px;
+        position: relative;
+      }
       .preview__modal {
         align-items: center;
         display: flex;
@@ -150,7 +165,7 @@ export class JpCarousel extends PolymerElement {
       <div class="button__right" on-click="rightClick"></div>
       <slot></slot>
     </div>
-    <div class="indicator"></div>
+    <div class="indicator__container"></div>
     <div class="caption">
       <p class="caption__text"></p>
     </div>
@@ -344,6 +359,15 @@ export class JpCarousel extends PolymerElement {
    */
   init_indicator() {
     const items = this.children;
+    var indicators = '';
+    for (var i = 0; i < items.length; i++) {
+      if (i === 0) {
+        indicators += '<span class="indicator active"></span>'
+      }
+      indicators += '<span class="indicator"></span>';
+    }
+    const indicatorRef = this.shadowRoot.querySelector('.indicator__container');
+    indicatorRef.innerHTML = indicators;
   }
   /**
    * Triggered by user to navigate carousel to the left.
