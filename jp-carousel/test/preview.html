@@ -66,9 +66,10 @@
 
     <script>
       function getPreview(element) {
-        const style = window.getComputedStyle(element.$.previewImg, null);
+        const shadow = element.shadowRoot;
+        const style = window.getComputedStyle(shadow.querySelector('.preview__img'), null);
         const opacity = style.getPropertyValue('opacity');
-        if (opacity == 1) return (element.$.previewImg).getAttribute('src');
+        if (opacity == 1) return (shadow.querySelector('.preview__img')).getAttribute('src');
         else return -1;
       }
       
@@ -77,9 +78,9 @@
         test('No preview => no preview on clicking left, middle, or right', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
-          const previewBtn = shadow.getElementById('previewButton');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
+          const previewBtn = shadow.querySelector('.button--preview');
 
           var retval = getPreview(el);
           assert.equal(retval, -1);
@@ -100,10 +101,10 @@
         test('Preview => preview on clicking in the middle, during navigating, and close when click on preview', (done) => {
           const el = fixture('Preview');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
-          const previewBtn = shadow.getElementById('previewButton');
-          const closeBtn = shadow.getElementById('previewImg');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
+          const previewBtn = shadow.querySelector('.button--preview');
+          const closeBtn = shadow.querySelector('.preview__img');
           
           var retval = getPreview(el);
           assert.equal(retval, -1);
@@ -137,10 +138,10 @@
         test('Act-Preview => displays preview on default', (done) => {
           const el = fixture('ActPreview');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
-          const previewBtn = shadow.getElementById('previewBtn');
-          const closeBtn = shadow.getElementById('previewImg');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
+          const previewBtn = shadow.querySelector('.button--preview');
+          const closeBtn = shadow.querySelector('.preview__img');
 
           var retval = getPreview(el);
           var preview = (el.querySelector('.active')).getAttribute('src');

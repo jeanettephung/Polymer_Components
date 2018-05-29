@@ -192,7 +192,7 @@
           for (var i = 0; i < el.children.length; i++) {
             const caption = (el.children[i]).getAttribute('caption');
             assert.equal(caption, null);
-            const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+            const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
             button.click();
             assert.equal(assert1, assert2);
           }
@@ -201,17 +201,17 @@
         test('No caption attribute should not display caption', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
+          const rightBtn = shadow.querySelector('.button--right');
 
           const dataEl = fixture('Data');
           const dataShadow = dataEl.shadowRoot;
-          const dataRightBtn = dataShadow.getElementById('rightButton');
+          const dataRightBtn = dataShadow.querySelector('.button--right');
           
           function testCase(el, shadow, button) {
             for (var i = 0; i < el.children.length; i++) {
               const caption = (el.children[i]).getAttribute('caption');
               assert.equal(caption, null);
-              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
               button.click();
             }
           }
@@ -223,17 +223,17 @@
         test('With caption attribute with no caption on image display no caption', () => {
           const el = fixture('DefaultNoCaption');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
+          const rightBtn = shadow.querySelector('.button--right');
           
           const dataEl = fixture('DataNoCaption');
           const dataShadow = dataEl.shadowRoot;
-          const dataRightBtn = dataShadow.getElementById('rightButton');
+          const dataRightBtn = dataShadow.querySelector('.button--right');
 
           function testCase(el, shadow, button) {
             for (var i = 0; i < el.children.length; i++) {
               const caption = (el.children[i]).getAttribute('caption');
               assert.notEqual(caption, null);
-              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
               assert.equal(display, '');
               button.click();
             }
@@ -246,16 +246,16 @@
         test('With caption attribute and caption on image display caption', () => {
           const el = fixture('DefaultCaption');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
+          const rightBtn = shadow.querySelector('.button--right');
           
           const dataEl = fixture('DataCaption');
           const dataShadow = dataEl.shadowRoot;
-          const dataRightBtn = dataShadow.getElementById('rightButton');
+          const dataRightBtn = dataShadow.querySelector('.button--right');
 
           function testCase(el, shadow, button) {
             for (var i = 0; i < el.children.length; i++) {
               const caption = (el.children[i]).getAttribute('caption');
-              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
               assert.equal(display, caption);
               button.click();
             }
@@ -268,16 +268,16 @@
         test('Images with caption attribute displays caption', () => {
           const el = fixture('DefaultCaptionAlt');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
+          const rightBtn = shadow.querySelector('.button--right');
           
           const dataEl = fixture('DataCaptionAlt');
           const dataShadow = dataEl.shadowRoot;
-          const dataRightBtn = dataShadow.getElementById('rightButton');
+          const dataRightBtn = dataShadow.querySelector('.button--right');
           
           function testCase(el, shadow, button) {
             for (var i = 0; i < el.children.length; i++) {
               const caption = (el.children[i]).getAttribute('caption');
-              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
 
               if (i%2 === 0) assert.equal(display, '');
               else assert.equal(display, caption);
@@ -305,7 +305,7 @@
           function testCase(el, shadow, button) {
             for (var i = 0; i < el.children.length; i++) {
               const caption = (el.children[i]).getAttribute('caption');
-              const display = ((shadow.getElementById('captionBox')).querySelector('p')).textContent;
+              const display = ((shadow.querySelector('.caption')).querySelector('p')).textContent;
 
               if (i%2 === 0) assert.equal(display, '');
               else assert.equal(display, caption);
@@ -318,11 +318,11 @@
           checkValues(el, 'blue', 'monospace', '8px', '200');
           
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
+          const rightBtn = shadow.querySelector('.button--right');
           
           const dataEl = fixture('DataCaptionAlt');
           const dataShadow = dataEl.shadowRoot;
-          const dataRightBtn = dataShadow.getElementById('rightButton');
+          const dataRightBtn = dataShadow.querySelector('.button--right');
           
           
           testCase(el, shadow, rightBtn);

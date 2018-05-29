@@ -72,7 +72,7 @@ export class JpCarousel extends PolymerElement {
         width: 36%;
         z-index: 30;
       }
-      .button__preview {
+      .button--preview {
         width: 55%;
         left: 23%;
       }
@@ -121,7 +121,7 @@ export class JpCarousel extends PolymerElement {
         opacity: 1;
         pointer-events: inherit;
       }
-      .button__right {
+      .button--right {
         left: 78%;
       }
       @media only screen and (min-width: 480px) {
@@ -146,11 +146,11 @@ export class JpCarousel extends PolymerElement {
           opacity: var(--opacity-right-end, var(--opacity-end, var(--opacity-gen-right-end, 0.75)));
           order: 5;
         }
-        .button__preview {
+        .button--preview {
           width: 28%;
           left: 36%;
         }
-        .button__right {
+        .button--right {
           left: 64%;
         }
       }
@@ -160,9 +160,9 @@ export class JpCarousel extends PolymerElement {
       <img class="preview__img" src="" on-click="closePreview">
     </div>
     <div class="button__container">
-      <div class="button__left" on-click="leftClick"></div>
-      <div class="button__preview" on-click="activatePreview"></div>
-      <div class="button__right" on-click="rightClick"></div>
+      <div class="button--left" on-click="leftClick"></div>
+      <div class="button--preview" on-click="activatePreview"></div>
+      <div class="button--right" on-click="rightClick"></div>
       <slot></slot>
     </div>
     <div class="indicator__container"></div>
@@ -211,7 +211,7 @@ export class JpCarousel extends PolymerElement {
    * Closes preview image.
    */
   closePreview(){
-    this.querySelector('.preview__img').classList.remove('active');
+    this.shadowRoot.querySelector('.preview__modal .preview__img').classList.remove('active');
   }
   /**
    * Navigates through carousel in specified direction.

@@ -36,9 +36,9 @@
         test('Click right for two full cycles', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
-          
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
+
           for (var i = 0; i < 19; i++) {
             const before = (el.querySelector('.active')).getAttribute('next');
             rightBtn.click();
@@ -54,8 +54,8 @@
         test('Click left for two full cycles', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
           
           for (var i = 0; i < 20; i++) {
             const before = (el.querySelector('.active')).getAttribute('prev');
@@ -72,8 +72,8 @@
         test('R L R L R L R L', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
           
           for (var i = 0; i < 4; i++) {
             var before = (el.querySelector('.active')).getAttribute('next');
@@ -91,8 +91,8 @@
         test('R R R L L L L L L', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
           
           for (var i = 0; i < 3; i++) rightBtn.click();
           for (var i = 0; i < 6; i++) leftBtn.click();
@@ -104,8 +104,8 @@
         test('L L L R L L L R R L L L R R R R R', () => {
           const el = fixture('Default');
           const shadow = el.shadowRoot;
-          const rightBtn = shadow.getElementById('rightButton');
-          const leftBtn = shadow.getElementById('leftButton');
+          const rightBtn = shadow.querySelector('.button--right');
+          const leftBtn = shadow.querySelector('.button--left');
           
           for (var i = 0; i < 3; i++) leftBtn.click();
           rightBtn.click();
