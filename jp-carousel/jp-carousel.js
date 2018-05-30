@@ -85,6 +85,7 @@ export class JpCarousel extends PolymerElement {
       }
       .indicator__container {
         display: flex;
+        font-size: 0.624rem;
         justify-content: center;
         margin: 1rem auto;
       }
@@ -93,9 +94,8 @@ export class JpCarousel extends PolymerElement {
         margin: 0 0.15rem;
       }
       .indicator.active:before {
-        content: '⬤';
         bottom: 0.0625rem;
-        font-size: 13px;
+        content: '⬤';
         position: relative;
       }
       .preview__modal {
