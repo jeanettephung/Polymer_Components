@@ -354,17 +354,15 @@ export class JpCarousel extends PolymerElement {
     this.init(_this);
   }
   /**
-   * TODO
-   * Initializes indicator.
+   * Initializes indicator by creating an indicator per carousel item and
+   * setting first carousel item as active.
    */
   init_indicator() {
     const items = this.children;
     var indicators = '';
     for (var i = 0; i < items.length; i++) {
-      if (i === 0) {
-        indicators += '<span class="indicator active"></span>'
-      }
-      indicators += '<span class="indicator"></span>';
+      if (i === 0) indicators += '<span class="indicator active"></span>'
+      else indicators += '<span class="indicator"></span>';
     }
     const indicatorRef = this.shadowRoot.querySelector('.indicator__container');
     indicatorRef.innerHTML = indicators;
@@ -375,6 +373,7 @@ export class JpCarousel extends PolymerElement {
   leftClick() {
     this.directionClick('left');
     this.check_autoplay();
+    if (this.indicator) this.update_indicator('left');
   }
   /**
    * Temparily pauses carousel until no user interaction for default (5 sec) or pause_time (set by user).
@@ -416,6 +415,26 @@ export class JpCarousel extends PolymerElement {
       caption.textContent = captionText;
     }
   }
+  /** 
+   * Updates the indicator to represent which carousel item is currently active.
+   * @param {string} direction: direction in which user navigates carousel
+   */
+  update_indicator(direction) {
+    const indicators = this.shadowRoot.querySelectorAll('.indicator__container .indicator');
+    var removeIndex;
+    // removes active class based on direction
+    if (direction === 'left') {
+      if (indicators[parseInt(this.cur)+1]) removeIndex = parseInt(this.cur)+1;
+      else removeIndex = 0;
+    } else {  // 'right'
+      if (indicators[parseInt(this.cur)-1]) removeIndex = parseInt(this.cur)-1;
+      else removeIndex = indicators.length-1;
+    }
+    indicators[removeIndex].classList.remove('active');
+    
+    // adds active class to active carousel item's associated indicator
+    indicators[this.cur].classList.add('active');
+  }
 
   constructor() {
     super();
@@ -445,6 +464,7 @@ export class JpCarousel extends PolymerElement {
   rightClick() {
     this.directionClick('right');
     this.check_autoplay();
+    if (this.indicator) this.update_indicator('right');
   }
 }
 
