@@ -91,11 +91,13 @@ export class JpCarousel extends PolymerElement {
         margin: 1rem auto;
       }
       .indicator:before {
+        color: var(--indicator-color, black);
         content: '◯';
         margin: 0 0.15rem;
       }
       .indicator.active:before {
         bottom: 0.0625rem;
+        color: var(--indicator-active, var(--indicator-color, black));
         content: '⬤';
         position: relative;
       }
