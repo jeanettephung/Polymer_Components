@@ -241,6 +241,7 @@ data='[
     xmlhttp.onreadystatechange = function () {
       if (this.readyState === 4 && this.status === 200) {
         var target = document.getElementsByTagName('jp-carousel');
+
         for (var i = 0; i < target.length; i++) {
           target[i].setAttribute('data', this.responseText);
         }

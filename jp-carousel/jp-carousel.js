@@ -30,7 +30,7 @@ export class JpCarousel extends PolymerElement {
       ::slotted(*) {
         display: none;
         margin: 0 -2.5% 0 0;
-        transition-duration: 0.5s;
+        transition-duration: 0.15s;
         transition-property: display, height, opacity, width, z-index;
       }
       ::slotted(.active) {
@@ -130,6 +130,7 @@ export class JpCarousel extends PolymerElement {
       @media only screen and (min-width: 480px) {
         ::slotted(*) {
           margin: 0 -5% 0 0;
+          transition-duration: 0.5s;
         }
         ::slotted(.active) {
           width: 28%;
