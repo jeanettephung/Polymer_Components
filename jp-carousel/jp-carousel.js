@@ -19,6 +19,7 @@ export class JpCarousel extends PolymerElement {
         display: block;
         margin: 2rem 0;
         position: relative;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
       }
       ::slotted(img) {
         border: 1px solid #5f5e5e;
