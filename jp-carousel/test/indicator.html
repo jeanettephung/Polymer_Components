@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>autoplay and pause test</title>
+    <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+    <script src="../node_modules/wct-browser-legacy/browser.js"></script>
+
+    <script type="module" src="../jp-carousel.js"></script>
+  </head>
+  <body>
+
+    <test-fixture id="Default">
+      <template>
+        <jp-carousel>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="indicator">
+      <template>
+        <jp-carousel indicator>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="indicator__cssVar--indicator-color">
+      <template>
+        <jp-carousel indicator>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="indicator__cssVar--indicator-active">
+      <template>
+        <jp-carousel indicator>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+    
+    <test-fixture id="indicator__cssVars">
+      <template>
+        <jp-carousel indicator>
+          <img src="https://thumbs.dreamstime.com/b/male-crowntail-betta-fish-isolated-black-background-beautiful-blue-77203959.jpg">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Betta_splendens_male_crowntail.png">
+          <img src="https://cdn.idropnews.com/wp-content/uploads/2017/03/23164924/Beta-Fish-Wallpaper-Chevanon-Photography-1000x600.jpg">
+          <img src="https://thumbs.dreamstime.com/b/blue-crowntail-betta-fish-siamese-fighting-fish-black-background-71712481.jpg">
+          <img src="https://thumbs.dreamstime.com/b/red-blue-siamese-fighting-fish-betta-fish-isolated-black-background-58695275.jpg">
+          <img src="http://fishkeepingadvice.com/wp-content/uploads/siamese-fighting-fish.jpg">
+          <img src="https://static.seattletimes.com/wp-content/uploads/2016/11/66ae45dc30524386bf08aee8a751b279-780x532.jpg">
+          <img src="https://media.istockphoto.com/photos/white-yellow-siamese-fighting-fish-picture-id601925038?k=6&m=601925038&s=612x612&w=0&h=pOtNyPfF6pEgm_x8Qi1flpLKmJ1tcbOhnEsZ97BO8wE=">
+          <img src="http://www.fubiz.net/wp-content/uploads/2013/11/Stunning-Portraits-of-Fish-1.jpg">
+          <img src="https://i.pinimg.com/736x/41/f3/ea/41f3eaba447b068d04f27f88f85d8e05--tropical-animals-tropical-fish.jpg">
+        </jp-carousel>
+      </template>
+    </test-fixture>
+
+    <script>
+      suite('jp-carousel', () => {
+        suiteSetup(function(){
+            this.timeout(10000);
+          })
+
+        test('instantiating default (autoplay) element', () => {
+          const el = fixture('Default');
+          assert.equal(el.autoplay, undefined);
+        });
+        
+        test('instantiating autoplay element', () => {
+          const el = fixture('Autoplay');
+          assert.equal(el.autoplay, 0);
+        });
+        
+        test('instantiating autoplayVal element', () => {
+          const el = fixture('AutoplayVal');
+          assert.equal(el.autoplay, 300);
+        });
+        
+        test('instantiating default (pause) element', () => {
+          const el = fixture('Default');
+          assert.equal(el.pause, undefined);
+        });
+        
+        test('instantiating pause element', () => {
+          const el = fixture('Pause');
+          assert.equal(el.pause, 0);
+        });
+        
+        test('instantiating pauseVal element', () => {
+          const el = fixture('PauseVal');
+          assert.equal(el.pause, 300);
+        });
+
+        test('Default should be on same image', () => {
+          const el = fixture('Default');
+          const original = el.querySelector('.active');
+          
+          setTimeout(function() {
+              const current = el.querySelector('.active');
+              assert.equal(original, current);
+          }, 2500);
+        });
+        
+        test('RUN ALONE: Autoplay should be on next image', (done) => {
+          const el = fixture('Autoplay');
+          const original = el.querySelector('.active');
+          var originalNext = original.getAttribute('next');
+          var timesRun = 0;
+
+          var interval = setInterval(function() {
+            const current = el.querySelector('.active');
+            const currentNext = current.getAttribute('next');
+            assert.equal(parseInt(originalNext), currentNext);
+            originalNext++;
+            
+            timesRun++;
+            if (timesRun > 3) {
+              clearInterval(interval);
+              done();
+            }
+          }, 1300); // Even though autoplay set to 1500, set a little less because not accurate
+
+        });
+        
+        test('RUN ALONE: Autoplay=300 should be on next in 300', (done) => {
+          const el = fixture('AutoplayVal');
+          const original = el.querySelector('.active');
+          var originalNext = original.getAttribute('next');
+          var timesRun = 0;
+
+          var interval = setInterval(function() {
+            const current = el.querySelector('.active');
+            const currentNext = current.getAttribute('next');
+            assert.equal(parseInt(originalNext), currentNext);
+            originalNext++;
+            
+            timesRun++;
+            if (timesRun > 5) {
+              clearInterval(interval);
+              done();
+            }
+          }, 250);
+        });
+        
+        test('RUN ALONE: After user interaction, pause for 5000 then autoplay', (done) => {
+          flush(function () {
+            const el = fixture('Pause');
+            const shadow = el.shadowRoot;
+            const rightBtn = shadow.getElementById('rightButton');
+            const leftBtn = shadow.getElementById('leftButton');
+            var timesRun = 0;
+
+            const original = el.querySelector('.active');
+            var originalNext = original.getAttribute('next');
+            rightBtn.click();
+
+            
+            var interval = setInterval(function() {
+              var current = el.querySelector('.active');
+              var currentNext = current.getAttribute('next');
+              timesRun++;
+              if (timesRun === 1) {
+                assert.equal(parseInt(originalNext)+1, currentNext);
+                originalNext = currentNext;
+              } else if (timesRun > 4) {
+                clearInterval(interval);
+                assert.equal(parseInt(originalNext), currentNext);
+                done();
+              } else
+                assert.equal(originalNext, currentNext);
+            }, 1000);
+          });
+        });
+          
+        test('After user interaction, pause for pauseVal=300 then autoplay', (done) => {
+          const el = fixture('PauseVal');
+          const shadow = el.shadowRoot;
+          const rightBtn = shadow.getElementById('rightButton');
+          const leftBtn = shadow.getElementById('leftButton');
+          assert.equal(1, 1);
+          done();
+          // TODO if fix test before
+        });
+
+      });
+    </script>
+
+  </body>
+</html>
