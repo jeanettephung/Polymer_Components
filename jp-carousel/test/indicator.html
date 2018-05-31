@@ -50,6 +50,16 @@
   </test-fixture>
 
   <script>
+    function checkColor(element) {
+      var retval = [];
+      for (var i = 0; i < element.length; i++) {
+        var style = window.getComputedStyle(element[i], ':before');
+        var color = style.getPropertyValue('color');
+        retval.push(color);
+      }
+      return retval;
+    }
+
     suite('jp-carousel', () => {
       suiteSetup(function () {
         this.timeout(10000);
@@ -100,30 +110,29 @@
         }
       });
 
-      // TODO
-      test('it should have associated indicator be active (random)', () => {
-        const el = fixture('Indicator');
-        const items = el.children;
-        const indicators = el.shadowRoot.querySelectorAll('.indicator__container .indicator');
-        assert.equal(items.length, indicators.length);
-      });
-
-      // TODO
       test('it should have red indicators', () => {
         const el = fixture('Indicator');
-        assert.equal(el.autoplay, "");
+        el.style.setProperty('--indicator-color', 'red');
+        const indicators = el.shadowRoot.querySelectorAll('.indicator__container .indicator');
+        const retval = checkColor(indicators);
+        assert.deepEqual(retval, ["rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)"]);
       });
 
-      // TODO
       test('it should have blue active indicator', () => {
         const el = fixture('Indicator');
-        assert.equal(el.autoplay, "");
+        el.style.setProperty('--indicator-active', 'blue');
+        const indicators = el.shadowRoot.querySelectorAll('.indicator__container .indicator');
+        const retval = checkColor(indicators);
+        assert.deepEqual(retval, ["rgb(0, 0, 255)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)", "rgb(0, 0, 0)"]);
       });
 
-      // TODO
       test('it should have red indicators and blue active indicator', () => {
         const el = fixture('Indicator');
-        assert.equal(el.autoplay, "");
+        el.style.setProperty('--indicator-active', 'blue');
+        el.style.setProperty('--indicator-color', 'red');
+        const indicators = el.shadowRoot.querySelectorAll('.indicator__container .indicator');
+        const retval = checkColor(indicators);
+        assert.deepEqual(retval, ["rgb(0, 0, 255)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)", "rgb(255, 0, 0)"]);
       });
 
     });
